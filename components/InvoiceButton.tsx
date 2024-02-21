@@ -6,7 +6,7 @@ export default function InvoiceButton() {
     <div>
       <Link
         href="/invoice"
-        className="py-2 px-3 flex rounded-md no-underline hover:bg-btn-background-hover text-black border bg-white hover:text-white">
+        className="py-2 px-3 flex rounded-md no-underline transition duration-400 ease-in-out hover:bg-btn-background-hover text-black border bg-white hover:text-white">
         Create your Invoice
       </Link>
 
