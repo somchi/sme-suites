@@ -9,6 +9,8 @@
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.15",
+    "flowbite": "^2.3.0",
+    "flowbite-react": "^0.7.2",
     "geist": "^1.0.0",
     "next": "latest",
     "postcss": "8.4.29",
