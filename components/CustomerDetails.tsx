@@ -1,4 +1,9 @@
-const CustomerDetails = () => {
+interface customersDetailsProps {
+  nextComponent: () => void;
+  previousComponent: () => void;
+}
+
+const CustomerDetails = ({nextComponent,previousComponent}:customersDetailsProps) => {
   return (
     <>
       <div className="container mt-10">
@@ -119,7 +124,10 @@ const CustomerDetails = () => {
                   <div
                     className="p-3 w-full lg:w-[100px] cursor-pointer shadow-sm rounded-lg text-blue-700 border bg-blue-400 focus:border-blue-800 dark:text-white hover:bg-[#4884DA]"
                     role="alert">
-                    <div className="flex items-center justify-center gap-2">
+                    <button 
+                    type="button"
+                    onClick={previousComponent}
+                    className="flex items-center justify-center gap-2">
                       <svg
                         className="w-6 h-6 text-gray-100 dark:text-white"
                         aria-hidden="true"
@@ -135,13 +143,15 @@ const CustomerDetails = () => {
                         />
                       </svg>
                       <h3>Back</h3>
-                    </div>
+                      
+                    </button>
                   </div>
 
                   <button
+                  onClick={nextComponent}
                     type="submit"
                     className="py-3 px-3 bg-blue-400 hover:bg-[#4884DA] transition duration-200 ease-in-out rounded-lg w-full lg:w-52 focus:ring-blue-500  mt-8  lg:mt-0 focus:ring-offset-blue-200 text-white text-center text-base font-semibold shadow-md disabled:cursor-not-allowed disabled:bg-slate-500">
-                    Same and Continue
+                    Save and Continue
                   </button>
                 </div>
               </form>

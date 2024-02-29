@@ -1,4 +1,9 @@
-const InvoiceDetails = () => {
+interface invoiceDetailsProps {
+  nextComponent: () => void;
+  previousComponent: () => void;
+}
+
+const InvoiceDetails = ({previousComponent}:invoiceDetailsProps) => {
   return (
     <>
       <div className="container mt-10">
@@ -359,7 +364,10 @@ const InvoiceDetails = () => {
                   <div
                     className="p-3 w-full lg:w-[100px] cursor-pointer shadow-sm rounded-lg text-blue-700 border bg-blue-400 focus:border-blue-800 dark:text-white hover:bg-[#4884DA]"
                     role="alert">
-                    <div className="flex items-center justify-center gap-2">
+                    <button
+                    type="button"
+                    onClick={previousComponent} 
+                    className="flex items-center justify-center gap-2">
                       <svg
                         className="w-6 h-6 text-gray-100 dark:text-white"
                         aria-hidden="true"
@@ -375,7 +383,7 @@ const InvoiceDetails = () => {
                         />
                       </svg>
                       <h3>Back</h3>
-                    </div>
+                    </button>
                   </div>
 
                   <button

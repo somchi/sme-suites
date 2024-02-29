@@ -1,10 +1,39 @@
+"use client"
 import SupabaseLogo from "@/components/SupabaseLogo";
 import BesinessDetails from "@/components/BusinessDetails";
 import CustomerDetails from "@/components/CustomerDetails";
 import InvoiceDetails from "@/components/InvoiceDetails";
 import Footer from "@/components/Footer";
+import { useState} from "react";
+
+
+
 
 const Page = () => {
+
+  const [currentIndex, setCurrentIndex] =useState(0);
+
+  const nextComponent = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
+  };
+
+  const previousComponent = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
+  };
+
+  const renderComponent = () => {
+    switch (currentIndex) {
+      case 0:
+        return <BesinessDetails nextComponent={nextComponent} />;
+      case 1:
+        return <CustomerDetails nextComponent={nextComponent} previousComponent={previousComponent} />;
+      case 2:
+        return <InvoiceDetails nextComponent={nextComponent} previousComponent={previousComponent} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="w-[90%] mx-auto">
       <div className="pt-6 flex items-center justify-between">
@@ -105,9 +134,10 @@ const Page = () => {
             <h3 className="text-[16px]">Invoice's Details</h3>
           </div>
         </div>
-        <BesinessDetails />
-        <CustomerDetails />
-        <InvoiceDetails/>
+        <div>
+      {renderComponent()}
+      
+    </div>
       </div>
       <Footer/>
     </div>
