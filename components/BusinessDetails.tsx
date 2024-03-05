@@ -2,11 +2,11 @@
 
 
 // Define the prop types for the components
-interface BesinessDetailsProps {
+interface BusinessDetailsProps {
   nextComponent: () => void;
 }
 
-const BusinessDetails = ({nextComponent}:BesinessDetailsProps) => {
+const BusinessDetails = ({nextComponent}:BusinessDetailsProps) => {
   return (
     <>
       <div className="container mt-10">
@@ -29,7 +29,7 @@ const BusinessDetails = ({nextComponent}:BesinessDetailsProps) => {
                 <div className="lg:grid lg:grid-cols-2 lg:gap-12 py-[1rem]">
                   <div>
                     <label className="text-gray-300" htmlFor="">
-                      Your bussiness name{" "}
+                      Your business name{" "}
                       <span className="text-red-500 font-bold italic ml-2 text-base">
                         {" "}
                         *{" "}
