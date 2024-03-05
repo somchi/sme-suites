@@ -2,7 +2,7 @@ import React from "react";
 import SupabaseLogo from "@/components/SupabaseLogo";
 import Link from "next/link";
 
-function ToggleNavigation() {
+function ModuleHeader() {
   return (
     <div className="pt-6 flex items-center justify-between">
       <SupabaseLogo />
@@ -26,4 +26,4 @@ function ToggleNavigation() {
   );
 }
 
-export default ToggleNavigation;
+export default ModuleHeader;
