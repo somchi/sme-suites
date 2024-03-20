@@ -1,10 +1,10 @@
 "use client";
-import BusinessDetails from "@/components/BusinessDetails";
-import CustomerDetails from "@/components/CustomerDetails";
-import InvoiceDetails from "@/components/InvoiceDetails";
-import Footer from "@/components/Footer";
+import BusinessDetails from "@/app/_components/BusinessDetails";
+import CustomerDetails from "@/app/_components/CustomerDetails";
+import InvoiceDetails from "@/app/_components/InvoiceDetails";
+import Footer from "@/app/_components/Footer";
 import { useState } from "react";
-import ModuleHeader from "@/components/ModuleHeader";
+import ModuleHeader from "@/app/_components/ModuleHeader";
 
 const Page = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -110,9 +110,9 @@ const Page = () => {
                   fill="currentColor"
                   viewBox="0 0 24 24">
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M9 2.2V7H4.2l.4-.5 3.9-4 .5-.3Zm2-.2v5a2 2 0 0 1-2 2H4v11c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7ZM8 16c0-.6.4-1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1-5a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import SupabaseLogo from "@/components/SupabaseLogo";
+import SupabaseLogo from "@/app/_components/SupabaseLogo";
 import Link from "next/link";
 
 function ModuleHeader() {
