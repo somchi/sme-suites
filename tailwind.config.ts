@@ -1,5 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss';
+import Colors from './src/site-setting/color';
+
+const config: Config = {
   content: [
     './node_modules/flowbite-react/lib/**/*.js',
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -15,11 +17,11 @@ module.exports = {
           background: 'hsl(var(--btn-background))',
           'background-hover': 'hsl(var(--btn-background-hover))',
         },
+        ...Colors,
       },
-      
     },
   },
-  plugins: [
-    require('flowbite/plugin')
-  ]
-}
+  plugins: [require('flowbite/plugin')],
+};
+
+export default config;
