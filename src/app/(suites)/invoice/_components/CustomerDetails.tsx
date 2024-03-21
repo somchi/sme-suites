@@ -141,7 +141,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
         nextComponent={nextStep}
         previousComponent={previousStep}
         currentIndex={1}
-        disable={disabled}
+        disable={false}
       />
     </>
   );

@@ -51,7 +51,12 @@ const BusinessDetails = ({ nextStep }: Props) => {
                     *
                   </em>
                 </Label>
-                <Input value={data.name} onChange={handleChange} name="name" />
+                <Input
+                  value={data.name}
+                  onChange={handleChange}
+                  name="name"
+                  required={true}
+                />
               </div>
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Email">
@@ -88,6 +93,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   value={data.phone}
                   onChange={handleChange}
                   name="phone"
+                  required={true}
                 />
               </div>
             </div>
@@ -147,11 +153,15 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Bank">
                   Bank
+                  <em className="text-red-500 font-bold italic ml-1 text-base">
+                    *
+                  </em>
                 </Label>
                 <Input
                   value={data.bank ?? ''}
                   onChange={handleChange}
                   name="bank"
+                  required={true}
                 />
               </div>
             </div>
@@ -160,28 +170,36 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Account">
                   Account Number
+                  <em className="text-red-500 font-bold italic ml-1 text-base">
+                    *
+                  </em>
                 </Label>
                 <Input
                   value={data.accNumber ?? ''}
                   onChange={handleChange}
                   name="accNumber"
+                  required={true}
                 />
               </div>
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="AccountName">
                   Account holder name
+                  <em className="text-red-500 font-bold italic ml-1 text-base">
+                    *
+                  </em>
                 </Label>
                 <Input
                   value={data.holderName ?? ''}
                   onChange={handleChange}
                   name="holderName"
+                  required={true}
                 />
               </div>
             </div>
           </form>
         </div>
       </div>
-      <NavSteps nextComponent={nextStep} currentIndex={0} disable={disabled} />
+      <NavSteps nextComponent={nextStep} currentIndex={0} disable={false} />
     </>
   );
 };

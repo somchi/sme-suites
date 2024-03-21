@@ -3,6 +3,7 @@ import { InvoiceStore } from '@/app/_utils/types/invoice';
 export const SET_BUSINESS_DATA = 'SET_BUSINESS_DATA';
 export const SET_CUSTOMER_DATA = 'SET_CUSTOMER_DATA';
 export const SET_INVOICE_DATA = 'SET_INVOICE_DATA';
+export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 export const invoiceReducer = (state: InvoiceStore, action: any) => {
   switch (action.type) {
@@ -21,6 +22,8 @@ export const invoiceReducer = (state: InvoiceStore, action: any) => {
         ...state,
         invoice: action.payload,
       };
+    case SET_PRODUCTS:
+      return { ...state, products: action.payload };
     default:
       return state;
   }

@@ -1,10 +1,25 @@
-import { Business, Customer, InvoiceStore } from '@/app/_utils/types/invoice';
+import {
+  Business,
+  Customer,
+  Invoice,
+  InvoiceStore,
+  Product,
+} from '@/app/_utils/types/invoice';
 import { createContext } from 'react';
 
 export const INITIAL_STATE: InvoiceStore = {
   business: {} as Business,
   customer: {} as Customer,
-  invoice: {},
+  invoice: {
+    date: new Date().toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric',
+      day: 'numeric',
+    }),
+  } as Invoice,
+  products: [
+    { name: '', id: '01', qty: 0, price: 0, discount: 0, amount: 0 },
+  ] as Product[],
 };
 
 export const InvoiceContext = createContext<{

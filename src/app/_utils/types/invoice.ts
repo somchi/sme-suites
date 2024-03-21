@@ -6,7 +6,6 @@ export type Business = {
   state?: string;
   city?: string;
   zipCode?: string;
-
   country?: string;
   bank?: string;
   accNumber?: string;
@@ -23,8 +22,29 @@ export type Customer = {
   zipCode?: string;
 };
 
+export type Product = {
+  name: string;
+  qty: number;
+  price: number;
+  amount: number;
+  id: string;
+  discount: number;
+};
+
+export type Invoice = {
+  invoicNo: string;
+  date: string;
+  dueDate?: string;
+  businessLogo?: any;
+  note: string;
+  terms: string;
+  discount: number;
+  tax: number;
+};
+
 export type InvoiceStore = {
   business: Business;
   customer: Customer;
-  invoice: any;
+  invoice: Invoice;
+  products: Product[];
 };
