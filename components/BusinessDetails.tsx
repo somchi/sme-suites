@@ -1,5 +1,5 @@
 // import '../app/globals.css'
-
+import PreviewPage from "./PreviewPage";
 
 // Define the prop types for the components
 interface BusinessDetailsProps {
@@ -190,6 +190,7 @@ const BusinessDetails = ({nextComponent}:BusinessDetailsProps) => {
             </div>
           </div>
         </div>
+        <PreviewPage />
       </div>
     </>
   );
