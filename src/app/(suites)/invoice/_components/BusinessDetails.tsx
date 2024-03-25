@@ -47,9 +47,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="">
                   Your business name{' '}
-                  <em className="text-red-500 font-bold italic ml-2 text-base">
-                    *
-                  </em>
+                  <em className="text-red-500 font-bold italic ml-2">*</em>
                 </Label>
                 <Input
                   value={data.name}
@@ -85,9 +83,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Number">
                   Phone Number
-                  <em className="text-red-500 font-bold italic ml-1 text-base">
-                    *
-                  </em>
+                  <em className="text-red-500 font-bold italic ml-1">*</em>
                 </Label>
                 <Input
                   value={data.phone}
@@ -120,16 +116,27 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
             </div>
-
-            <div className="w-full md:w-1/2 gap-4 py-[1rem]">
-              <Label className="text-gray-300" htmlFor="code">
-                Zip code
-              </Label>
-              <Input
-                value={data.zipCode ?? ''}
-                onChange={handleChange}
-                name="zipCode"
-              />
+            <div className="grid md:flex w-full gap-4 py-[1rem]">
+              <div className="grid w-full md:w-1/2">
+                <Label className="text-gray-300" htmlFor="code">
+                  Zip code
+                </Label>
+                <Input
+                  value={data.zipCode ?? ''}
+                  onChange={handleChange}
+                  name="zipCode"
+                />
+              </div>
+              <div className="grid w-full md:w-1/2">
+                <Label className="text-gray-300" htmlFor="City">
+                  Currency
+                </Label>
+                <Input
+                  value={data.city ?? ''}
+                  onChange={handleChange}
+                  name="city"
+                />
+              </div>
             </div>
           </form>
         </div>
@@ -153,7 +160,10 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Bank">
                   Bank
-                  <em className="text-red-500 font-bold italic ml-1 text-base">
+                  <em
+                    className="text-red-500 font-bold italic ml-1
+                  "
+                  >
                     *
                   </em>
                 </Label>
@@ -170,9 +180,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Account">
                   Account Number
-                  <em className="text-red-500 font-bold italic ml-1 text-base">
-                    *
-                  </em>
+                  <em className="text-red-500 font-bold italic ml-1">*</em>
                 </Label>
                 <Input
                   value={data.accNumber ?? ''}
@@ -184,9 +192,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="AccountName">
                   Account holder name
-                  <em className="text-red-500 font-bold italic ml-1 text-base">
-                    *
-                  </em>
+                  <em className="text-red-500 font-bold italic ml-1">*</em>
                 </Label>
                 <Input
                   value={data.holderName ?? ''}
@@ -199,7 +205,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
           </form>
         </div>
       </div>
-      <NavSteps nextComponent={nextStep} currentIndex={0} disable={false} />
+      <NavSteps nextComponent={nextStep} currentIndex={0} disable={disabled} />
     </>
   );
 };

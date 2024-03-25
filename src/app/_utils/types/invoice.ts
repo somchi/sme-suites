@@ -32,13 +32,14 @@ export type Product = {
 };
 
 export type Invoice = {
-  invoicNo: string;
+  invoiceNo: string;
   date: string;
   dueDate?: string;
   businessLogo?: any;
   note: string;
   terms: string;
   discount: number;
+  delivery: number;
   tax: number;
 };
 

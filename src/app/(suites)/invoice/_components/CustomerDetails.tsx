@@ -49,9 +49,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
             <div className="grid w-full md:w-1/2">
               <Label className="text-gray-300" htmlFor="">
                 Client's name
-                <em className="text-red-500 font-bold italic ml-1 text-base">
-                  *
-                </em>
+                <em className="text-red-500 font-bold italic ml-1">*</em>
               </Label>
               <Input
                 required={true}
@@ -88,9 +86,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
             <div className="grid w-full md:w-1/2">
               <Label className="text-gray-300" htmlFor="Number">
                 Phone Number
-                <em className="text-red-500 font-bold italic ml-2 text-base">
-                  *
-                </em>
+                <em className="text-red-500 font-bold italic ml-2">*</em>
               </Label>
               <Input
                 required={true}
@@ -141,7 +137,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
         nextComponent={nextStep}
         previousComponent={previousStep}
         currentIndex={1}
-        disable={false}
+        disable={disabled}
       />
     </>
   );

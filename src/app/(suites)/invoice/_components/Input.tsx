@@ -17,12 +17,16 @@ export const Input = ({
 }: Props) => {
   return (
     <input
-      className="w-full block border bg-theme-inputBg my-4 rounded-md outline-none text-white shadow-sm focus:ring-primary placeholder:text-red-800 focus:outline-none duration-300 py-3 px-4 focus:border focus:border-blue-300"
+      className="w-full block border bg-theme-inputBg rounded-md 
+      outline-none text-white shadow-sm focus:ring-primary 
+      placeholder:text-gray-400 focus:outline-none duration-300 py-2 px-4 
+      focus:border focus:border-blue-300"
       type={inputType ?? 'text'}
       required={required ?? false}
       value={value ?? ''}
       onChange={onChange}
       name={name}
+      placeholder={placeholder}
     />
   );
 };

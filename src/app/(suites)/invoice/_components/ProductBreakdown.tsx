@@ -1,7 +1,7 @@
 'use client';
 
-import { Label, Table } from 'flowbite-react';
-import { useContext, useMemo } from 'react';
+import { Checkbox, Table } from 'flowbite-react';
+import { useContext, useMemo, useState } from 'react';
 import { InvoiceContext } from '../../context/invoice/invoice.context';
 import { Product } from '@/app/_utils/types/invoice';
 import {
@@ -9,9 +9,12 @@ import {
   SET_PRODUCTS,
 } from '../../context/invoice/inovice.reducer';
 import { Input } from './Input';
+import { TableRow } from './TableRow';
+import { formatCurrency } from '@/app/_utils/utils';
 
 export const ProdutBreakdown = () => {
   const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
+  const [taxable, setTaxable] = useState<boolean>(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -76,9 +79,14 @@ export const ProdutBreakdown = () => {
     const value = target.value;
     const field = target.name;
     const finalVal =
-      value === '' && (field === 'tax' || field === 'discount') ? '0' : value;
+      value === '' &&
+      (field === 'tax' || field === 'discount' || field === 'delivery')
+        ? '0'
+        : value;
     const formatVal =
-      field === 'tax' || field === 'discount' ? parseFloat(finalVal) : finalVal;
+      field === 'tax' || field === 'discount' || field === 'delivery'
+        ? parseFloat(finalVal)
+        : finalVal;
     invoiceDispatch({
       type: SET_INVOICE_DATA,
       payload: { ...data, [field]: formatVal },
@@ -88,104 +96,12 @@ export const ProdutBreakdown = () => {
   const renderProducts = () => {
     return invoiceState.products.map((item: Product) => {
       return (
-        <Table.Row key={item.id}>
-          <Table.Cell className="px-4">
-            <div className="relative">
-              <input
-                type="text"
-                className="text-xs w-28 bg-transparent 
-                focus:outline-none border border-gray-600 py-2
-                focus:border-blue-400"
-                placeholder="Product name"
-                value={item.name}
-                name="name"
-                required
-                onChange={(e) => handleChange(e, item)}
-              />
-            </div>
-          </Table.Cell>
-          <Table.Cell className="px-4">
-            <div className="flex relative bg-transparent focus-within:text-white border-gray-600">
-              <input
-                type="number"
-                className="text-xs w-20 bg-transparent 
-                focus:outline-none border border-gray-600 pl-5 pr-2
-                focus:border-blue-600"
-                value={item.qty === 0 ? '' : item.qty}
-                name="qty"
-                required
-                onChange={(e) => handleChange(e, item)}
-              />
-            </div>
-          </Table.Cell>
-          <Table.Cell className="px-4">
-            <div className="flex relative bg-transparent focus-within:text-white border-gray-600">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                ₦
-              </span>
-              <input
-                type="number"
-                className="text-xs w-28 bg-transparent 
-                focus:outline-none border border-gray-600 pl-5 pr-2
-                focus:border-blue-600"
-                value={item.price === 0 ? '' : item.price}
-                name="price"
-                required
-                onChange={(e) => handleChange(e, item)}
-              />
-            </div>
-          </Table.Cell>
-          <Table.Cell className="px-4">
-            <div className="flex relative w-24 bg-transparent focus-within:text-white border-gray-600">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                ₦
-              </span>
-              <input
-                type="number"
-                className="text-xs w-24 bg-transparent 
-                focus:outline-none border border-gray-600 pl-5 pr-2
-                focus:border-blue-600"
-                value={item.discount === 0 ? '' : item.discount}
-                name="discount"
-                onChange={(e) => handleChange(e, item)}
-              />
-            </div>
-          </Table.Cell>
-          <Table.Cell className="px-4">
-            <div className="flex border border-gray-600 w-28 bg-transparent border-gray-600">
-              <span className="flex items-center pl-2">₦</span>
-              <span className="text-xs bg-transparent py-2 pl-2 pr-2">
-                {item.qty && item.price
-                  ? parseFloat(item.price.toString()) *
-                      parseFloat(item.qty.toString()) -
-                    parseFloat(item.discount.toString())
-                  : 0}
-              </span>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="px-4">
-            {item.id !== '01' ? (
-              <button
-                className="text-red-600"
-                onClick={() => handleRemove(item)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="h-3"
-                >
-                  <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"></path>{' '}
-                  <path
-                    fill-rule="evenodd"
-                    d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </button>
-            ) : null}
-          </Table.Cell>
-        </Table.Row>
+        <TableRow
+          key={item.id}
+          item={item}
+          handleChange={handleChange}
+          handleRemove={handleRemove}
+        />
       );
     });
   };
@@ -202,15 +118,21 @@ export const ProdutBreakdown = () => {
   const taxValue = () => {
     const percent = invoiceState.invoice.tax / 100;
     const discount = invoiceState.invoice.discount ?? 0;
-    const total = sum(invoiceState.products) - discount;
+    const delivery = invoiceState.invoice.delivery ?? 0;
+    const total = taxable
+      ? sum(invoiceState.products) - discount + delivery
+      : sum(invoiceState.products) - discount;
     const tax = total * percent + total;
-    return tax;
+    return taxable ? tax : tax + delivery;
   };
 
   const summmary = () => {
     const percent = invoiceState.invoice.tax / 100;
     const discount = invoiceState.invoice.discount ?? 0;
-    const total = sum(invoiceState.products) - discount;
+    const delivery = invoiceState.invoice.delivery ?? 0;
+    const total = taxable
+      ? sum(invoiceState.products) - discount + delivery
+      : sum(invoiceState.products) - discount;
     const tax = total * percent;
     return tax;
   };
@@ -218,19 +140,31 @@ export const ProdutBreakdown = () => {
   const grandTotal = useMemo(() => {
     const subTotal = sum(invoiceState.products) ?? 0;
     const discount = invoiceState.invoice.discount ?? 0;
+    const delivery = invoiceState.invoice.delivery ?? 0;
     const tax = !invoiceState.invoice.tax ? 0 : invoiceState.invoice.tax / 100;
-    const total = tax === 0 ? subTotal - discount : taxValue();
+    const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [invoiceState.invoice, invoiceState.products]);
+  }, [invoiceState.invoice, invoiceState.products, taxable]);
+
+  const handleTaxable = (e: any) => {
+    setTaxable((taxable) => !taxable);
+  };
+
+  const taxTotal = useMemo(() => {
+    if (taxable) {
+      return subTotal - data.discount + data.delivery ?? 0;
+    }
+    return subTotal - data.discount ?? 0;
+  }, [taxable]);
 
   return (
     <div className="grid w-full overflow-auto">
       <div className="w-full overflow-x-auto">
-        <p className="pt-8 pb-6">
-          04 - Product / Service details{' '}
-          <em className="text-red-500 font-bold italic ml-1 text-base">*</em>
+        <p className="pt-8 pb-3">
+          Product / Service details{' '}
+          <em className="text-red-500 font-bold italic ml-1">*</em>
         </p>
-        <hr className="mb-8 border-gray-500" />
+        <hr className="mb-4 border-gray-500" />
         <div className="overflow-x-auto">
           <Table>
             <Table.Head>
@@ -264,9 +198,9 @@ export const ProdutBreakdown = () => {
           Add new Item
         </button>
       </div>
-      <div className="grid md:w-1/2 w-full justify-self-end">
+      <div className="grid md:w-1/2 gap-4 w-full justify-self-end">
         <div className="flex justify-between items-center">
-          <p className="">Sub Total</p>
+          <p className="font-semibold text-sm">Sub Total</p>
           <div className="flex items-center ">
             <svg
               className="fill-current w-4 h-4 text-white"
@@ -275,12 +209,12 @@ export const ProdutBreakdown = () => {
             >
               <path d="M122.6 46.3c-7.8-11.7-22.4-17-35.9-12.9S64 49.9 64 64V256H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H64V448c0 17.7 14.3 32 32 32s32-14.3 32-32V320H228.2l97.2 145.8c7.8 11.7 22.4 17 35.9 12.9s22.7-16.5 22.7-30.6V320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H384V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256H262.5L122.6 46.3zM305.1 320H320v22.3L305.1 320zM185.5 256H128V169.7L185.5 256z" />
             </svg>
-            <p>{subTotal}</p>
+            <p>{formatCurrency(subTotal)}</p>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div className="">
-            <span>
+            <span className="font-semibold text-sm">
               TAX <em>(%)</em>
             </span>
           </div>
@@ -297,9 +231,9 @@ export const ProdutBreakdown = () => {
         {data.tax && data.tax.toString() !== '' ? (
           <div className="flex items-center gap-3 text-xs">
             <span className="text-xs">Tax</span>
-            <span className="text-xs">{`${data.tax} % of ${
-              subTotal - data.discount ?? 0
-            }`}</span>
+            <span className="text-xs">{`${data.tax} % of ${formatCurrency(
+              taxTotal
+            )}`}</span>
             <div className="flex items-center">
               <svg
                 className="fill-current w-3 h-3 text-white"
@@ -312,21 +246,49 @@ export const ProdutBreakdown = () => {
             </div>
           </div>
         ) : null}
-
         <div className="flex justify-between items-center">
-          <div className="">
-            <span>Discount</span>
+          <div className="flex gap-2">
+            <span className="font-semibold text-sm">Delivery</span>
+            <div className="flex gap-1 items-center">
+              <span className="text-xs">Taxable</span>
+              <Checkbox size={12} onChange={handleTaxable} />
+            </div>
           </div>
           <div className="flex relative w-[9.5rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-6">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-7">
               ₦
             </span>
-            <div className="pl-5">
+            <div className="pl-6">
               <Input
                 placeholder="0.00"
                 inputType="number"
                 value={
-                  data.discount === 0 || !data.discount ? '' : data.discount
+                  data.delivery === 0 || !data.delivery
+                    ? ''
+                    : formatCurrency(data.delivery)
+                }
+                name="delivery"
+                onChange={handleInvoiceChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <div className="">
+            <span className="font-semibold text-sm">Discount</span>
+          </div>
+          <div className="flex relative w-[9.5rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-7">
+              ₦
+            </span>
+            <div className="pl-6">
+              <Input
+                placeholder="0.00"
+                inputType="number"
+                value={
+                  data.discount === 0 || !data.discount
+                    ? ''
+                    : formatCurrency(data.discount)
                 }
                 name="discount"
                 onChange={handleInvoiceChange}
@@ -334,8 +296,8 @@ export const ProdutBreakdown = () => {
             </div>
           </div>
         </div>
-        <hr className=" mb-8 border-gray-500" />
-        <div className="flex justify-between items-center gap-[50px]">
+        <hr className="border-gray-500" />
+        <div className="flex justify-between items-center">
           <h2 className="font-bold">Balance Amount</h2>
           <div className="flex items-center ">
             <svg
@@ -345,7 +307,7 @@ export const ProdutBreakdown = () => {
             >
               <path d="M122.6 46.3c-7.8-11.7-22.4-17-35.9-12.9S64 49.9 64 64V256H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H64V448c0 17.7 14.3 32 32 32s32-14.3 32-32V320H228.2l97.2 145.8c7.8 11.7 22.4 17 35.9 12.9s22.7-16.5 22.7-30.6V320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H384V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256H262.5L122.6 46.3zM305.1 320H320v22.3L305.1 320zM185.5 256H128V169.7L185.5 256z" />
             </svg>
-            <p>{grandTotal}</p>
+            <p>{formatCurrency(grandTotal)}</p>
           </div>
         </div>
       </div>
