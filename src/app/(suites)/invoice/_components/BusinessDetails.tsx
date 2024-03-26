@@ -13,7 +13,11 @@ const BusinessDetails = ({ nextStep }: Props) => {
   const { invoiceDispatch, invoiceState } = useContext(InvoiceContext);
 
   const disabled = useMemo(() => {
-    if (!invoiceState.business.name || !invoiceState.business.phone) {
+    if (
+      !invoiceState.business.name ||
+      !invoiceState.business.phone ||
+      !invoiceState.business.businessName
+    ) {
       return true;
     }
     return false;
@@ -50,12 +54,27 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   <em className="text-red-500 font-bold italic ml-2">*</em>
                 </Label>
                 <Input
+                  value={data.businessName}
+                  onChange={handleChange}
+                  name="businessName"
+                  required={true}
+                />
+              </div>
+              <div className="grid w-full md:w-1/2">
+                <Label className="text-gray-300" htmlFor="">
+                  Your name{' '}
+                  <em className="text-red-500 font-bold italic ml-2">*</em>
+                </Label>
+                <Input
                   value={data.name}
                   onChange={handleChange}
                   name="name"
                   required={true}
                 />
               </div>
+            </div>
+
+            <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="Email">
                   Your email{' '}
@@ -65,19 +84,6 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   value={data.email ?? ''}
                   onChange={handleChange}
                   name="email"
-                />
-              </div>
-            </div>
-
-            <div className="grid md:flex w-full gap-4 py-[1rem]">
-              <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Address">
-                  Address{' '}
-                </Label>
-                <Input
-                  value={data.address ?? ''}
-                  onChange={handleChange}
-                  name="address"
                 />
               </div>
               <div className="grid w-full md:w-1/2">
@@ -96,6 +102,16 @@ const BusinessDetails = ({ nextStep }: Props) => {
 
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
+                <Label className="text-gray-300" htmlFor="Address">
+                  Address{' '}
+                </Label>
+                <Input
+                  value={data.address ?? ''}
+                  onChange={handleChange}
+                  name="address"
+                />
+              </div>
+              <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="State">
                   State
                 </Label>
@@ -105,6 +121,8 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   name="state"
                 />
               </div>
+            </div>
+            <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="City">
                   City
@@ -115,8 +133,6 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   name="city"
                 />
               </div>
-            </div>
-            <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="code">
                   Zip code
@@ -127,7 +143,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   name="zipCode"
                 />
               </div>
-              <div className="grid w-full md:w-1/2">
+              {/* <div className="grid w-full md:w-1/2">
                 <Label className="text-gray-300" htmlFor="City">
                   Currency
                 </Label>
@@ -136,7 +152,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                   onChange={handleChange}
                   name="city"
                 />
-              </div>
+              </div> */}
             </div>
           </form>
         </div>

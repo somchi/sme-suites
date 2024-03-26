@@ -1,4 +1,5 @@
 export type Business = {
+  businessName: string;
   name: string;
   email?: string;
   address?: string;
@@ -48,4 +49,9 @@ export type InvoiceStore = {
   customer: Customer;
   invoice: Invoice;
   products: Product[];
+  brandColor: { bgColor: string; textColor: string };
+  template: string;
+  currentIndex: number;
+  taxable: boolean;
+  currency: { country: string; symbol: string; currency: string };
 };

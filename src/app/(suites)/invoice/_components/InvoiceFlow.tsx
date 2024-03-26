@@ -4,23 +4,26 @@ import BusinessDetails from '@/app/(suites)/invoice/_components/BusinessDetails'
 import CustomerDetails from '@/app/(suites)/invoice/_components/CustomerDetails';
 import InvoiceDetails from '@/app/(suites)/invoice/_components/InvoiceDetails';
 import { TITLES } from '@/app/_utils/enums';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Flow } from './Flow';
+import { InvoiceContext } from '../../context/invoice/invoice.context';
+import { SET_INDEX } from '../../context/invoice/inovice.reducer';
 
 export const InvoiceFlow = () => {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [title, setTitle] = useState<string>(TITLES.Business);
+  const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
 
   const nextComponent = () => {
-    const index = currentIndex + 1;
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
+    const index = invoiceState.currentIndex + 1;
+    invoiceDispatch({ type: SET_INDEX, payload: index % 3 });
+
     handleTitle(index);
   };
 
   const previousComponent = () => {
-    const index = currentIndex - 1;
+    const index = invoiceState.currentIndex - 1;
     handleTitle(index);
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
+    invoiceDispatch({ type: SET_INDEX, payload: (index + 3) % 3 });
   };
 
   const handleTitle = (index: number) => {
@@ -34,7 +37,7 @@ export const InvoiceFlow = () => {
   };
 
   const renderComponent = () => {
-    switch (currentIndex) {
+    switch (invoiceState.currentIndex) {
       case 0:
         return <BusinessDetails nextStep={nextComponent} />;
       case 1:
@@ -52,25 +55,25 @@ export const InvoiceFlow = () => {
   };
 
   return (
-    <div>
+    <div className="grid w-full lg:w-[80%] justify-self-center">
       <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-10 mt-8">
         <Flow
           step="STEP 1"
           description="Business Details"
           last={false}
-          active={currentIndex == 0 ? true : false}
+          active={invoiceState.currentIndex == 0 ? true : false}
         />
         <Flow
           step="STEP 2"
           description="Customer Details"
           last={false}
-          active={currentIndex == 1 ? true : false}
+          active={invoiceState.currentIndex == 1 ? true : false}
         />
         <Flow
           step="STEP 3"
           description="Invoice Details"
           last={true}
-          active={currentIndex == 2 ? true : false}
+          active={invoiceState.currentIndex == 2 ? true : false}
         />
       </div>
       <h1 className="text-center font-bold text-2xl py-20">{title}</h1>

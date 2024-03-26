@@ -7,6 +7,7 @@ import { Product } from '@/app/_utils/types/invoice';
 import {
   SET_INVOICE_DATA,
   SET_PRODUCTS,
+  SET_TAXABLE,
 } from '../../context/invoice/inovice.reducer';
 import { Input } from './Input';
 import { TableRow } from './TableRow';
@@ -14,7 +15,7 @@ import { formatCurrency } from '@/app/_utils/utils';
 
 export const ProdutBreakdown = () => {
   const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
-  const [taxable, setTaxable] = useState<boolean>(false);
+  // const [invoiceState.taxable, setTaxable] = useState<boolean>(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -101,6 +102,7 @@ export const ProdutBreakdown = () => {
           item={item}
           handleChange={handleChange}
           handleRemove={handleRemove}
+          currency={invoiceState.currency.symbol}
         />
       );
     });
@@ -119,18 +121,18 @@ export const ProdutBreakdown = () => {
     const percent = invoiceState.invoice.tax / 100;
     const discount = invoiceState.invoice.discount ?? 0;
     const delivery = invoiceState.invoice.delivery ?? 0;
-    const total = taxable
+    const total = invoiceState.taxable
       ? sum(invoiceState.products) - discount + delivery
       : sum(invoiceState.products) - discount;
     const tax = total * percent + total;
-    return taxable ? tax : tax + delivery;
+    return invoiceState.taxable ? tax : tax + delivery;
   };
 
   const summmary = () => {
     const percent = invoiceState.invoice.tax / 100;
     const discount = invoiceState.invoice.discount ?? 0;
     const delivery = invoiceState.invoice.delivery ?? 0;
-    const total = taxable
+    const total = invoiceState.taxable
       ? sum(invoiceState.products) - discount + delivery
       : sum(invoiceState.products) - discount;
     const tax = total * percent;
@@ -144,18 +146,18 @@ export const ProdutBreakdown = () => {
     const tax = !invoiceState.invoice.tax ? 0 : invoiceState.invoice.tax / 100;
     const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [invoiceState.invoice, invoiceState.products, taxable]);
+  }, [invoiceState.invoice, invoiceState.products, invoiceState.taxable]);
 
   const handleTaxable = (e: any) => {
-    setTaxable((taxable) => !taxable);
+    invoiceDispatch({ type: SET_TAXABLE, payload: !invoiceState.taxable });
   };
 
   const taxTotal = useMemo(() => {
-    if (taxable) {
+    if (invoiceState.taxable) {
       return subTotal - data.discount + data.delivery ?? 0;
     }
     return subTotal - data.discount ?? 0;
-  }, [taxable]);
+  }, [invoiceState.taxable]);
 
   return (
     <div className="grid w-full overflow-auto">
@@ -166,7 +168,7 @@ export const ProdutBreakdown = () => {
         </p>
         <hr className="mb-4 border-gray-500" />
         <div className="overflow-x-auto">
-          <Table>
+          <Table className="relative">
             <Table.Head>
               <Table.HeadCell className="bg-gray-500 text-white text-xs px-4">
                 Product
@@ -202,13 +204,7 @@ export const ProdutBreakdown = () => {
         <div className="flex justify-between items-center">
           <p className="font-semibold text-sm">Sub Total</p>
           <div className="flex items-center ">
-            <svg
-              className="fill-current w-4 h-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-            >
-              <path d="M122.6 46.3c-7.8-11.7-22.4-17-35.9-12.9S64 49.9 64 64V256H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H64V448c0 17.7 14.3 32 32 32s32-14.3 32-32V320H228.2l97.2 145.8c7.8 11.7 22.4 17 35.9 12.9s22.7-16.5 22.7-30.6V320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H384V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256H262.5L122.6 46.3zM305.1 320H320v22.3L305.1 320zM185.5 256H128V169.7L185.5 256z" />
-            </svg>
+            <span className="text-sm pr-1">{invoiceState.currency.symbol}</span>
             <p>{formatCurrency(subTotal)}</p>
           </div>
         </div>
@@ -220,7 +216,7 @@ export const ProdutBreakdown = () => {
           </div>
           <div className="w-32">
             <Input
-              placeholder="0.00"
+              placeholder="0"
               inputType="number"
               value={data.tax === 0 || !data.tax ? '' : data.tax}
               onChange={handleInvoiceChange}
@@ -235,13 +231,7 @@ export const ProdutBreakdown = () => {
               taxTotal
             )}`}</span>
             <div className="flex items-center">
-              <svg
-                className="fill-current w-3 h-3 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-              >
-                <path d="M122.6 46.3c-7.8-11.7-22.4-17-35.9-12.9S64 49.9 64 64V256H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H64V448c0 17.7 14.3 32 32 32s32-14.3 32-32V320H228.2l97.2 145.8c7.8 11.7 22.4 17 35.9 12.9s22.7-16.5 22.7-30.6V320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H384V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256H262.5L122.6 46.3zM305.1 320H320v22.3L305.1 320zM185.5 256H128V169.7L185.5 256z" />
-              </svg>
+              <span>{invoiceState.currency.symbol}</span>
               <p className="text-xs">{summmary()}</p>
             </div>
           </div>
@@ -254,18 +244,20 @@ export const ProdutBreakdown = () => {
               <Checkbox size={12} onChange={handleTaxable} />
             </div>
           </div>
-          <div className="flex relative w-[9.5rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-7">
-              ₦
+          <div className="flex relative w-[8.1rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
+            <span className="absolute text-xs inset-y-0 left-0 flex items-center pl-2">
+              {invoiceState.currency.symbol}
             </span>
-            <div className="pl-6">
-              <Input
+            <div>
+              <input
+                className="w-full block border bg-theme-inputBg rounded-md 
+      outline-none text-white shadow-sm focus:ring-primary 
+      placeholder:text-gray-400 focus:outline-none duration-300 py-3 px-9 
+      focus:border focus:border-blue-300 text-sm"
                 placeholder="0.00"
-                inputType="number"
+                type="number"
                 value={
-                  data.delivery === 0 || !data.delivery
-                    ? ''
-                    : formatCurrency(data.delivery)
+                  data.delivery === 0 || !data.delivery ? '' : data.delivery
                 }
                 name="delivery"
                 onChange={handleInvoiceChange}
@@ -277,18 +269,20 @@ export const ProdutBreakdown = () => {
           <div className="">
             <span className="font-semibold text-sm">Discount</span>
           </div>
-          <div className="flex relative w-[9.5rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-7">
-              ₦
+          <div className="flex relative w-[8.1rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
+            <span className="absolute inset-y-0 text-xs left-0 flex items-center pl-2">
+              {invoiceState.currency.symbol}
             </span>
-            <div className="pl-6">
-              <Input
+            <div>
+              <input
+                className="w-full block border bg-theme-inputBg rounded-md 
+      outline-none text-white shadow-sm focus:ring-primary 
+      placeholder:text-gray-400 focus:outline-none duration-300 py-3 px-9 
+      focus:border focus:border-blue-300 text-sm"
                 placeholder="0.00"
-                inputType="number"
+                type="number"
                 value={
-                  data.discount === 0 || !data.discount
-                    ? ''
-                    : formatCurrency(data.discount)
+                  data.discount === 0 || !data.discount ? '' : data.discount
                 }
                 name="discount"
                 onChange={handleInvoiceChange}
@@ -300,13 +294,7 @@ export const ProdutBreakdown = () => {
         <div className="flex justify-between items-center">
           <h2 className="font-bold">Balance Amount</h2>
           <div className="flex items-center ">
-            <svg
-              className="fill-current w-4 h-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-            >
-              <path d="M122.6 46.3c-7.8-11.7-22.4-17-35.9-12.9S64 49.9 64 64V256H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H64V448c0 17.7 14.3 32 32 32s32-14.3 32-32V320H228.2l97.2 145.8c7.8 11.7 22.4 17 35.9 12.9s22.7-16.5 22.7-30.6V320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H384V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V256H262.5L122.6 46.3zM305.1 320H320v22.3L305.1 320zM185.5 256H128V169.7L185.5 256z" />
-            </svg>
+            <span className="text-sm pr-1">{invoiceState.currency.symbol}</span>
             <p>{formatCurrency(grandTotal)}</p>
           </div>
         </div>

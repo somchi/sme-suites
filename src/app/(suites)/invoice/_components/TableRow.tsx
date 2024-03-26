@@ -6,9 +6,15 @@ type Props = {
   item: Product;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>, item: Product) => void;
   handleRemove: (item: Product) => void;
+  currency: string;
 };
 
-export const TableRow = ({ item, handleChange, handleRemove }: Props) => {
+export const TableRow = ({
+  item,
+  handleChange,
+  handleRemove,
+  currency,
+}: Props) => {
   return (
     <Table.Row key={item.id}>
       <Table.Cell className="px-4">
@@ -30,7 +36,7 @@ export const TableRow = ({ item, handleChange, handleRemove }: Props) => {
         <div className="flex relative bg-transparent focus-within:text-white border-gray-600">
           <input
             type="number"
-            className="text-xs w-20 bg-transparent 
+            className="text-xs w-16 bg-transparent 
                 focus:outline-none border border-gray-600 pl-5 pr-2
                 focus:border-blue-600"
             value={item.qty === 0 ? '' : item.qty}
@@ -42,13 +48,13 @@ export const TableRow = ({ item, handleChange, handleRemove }: Props) => {
       </Table.Cell>
       <Table.Cell className="px-4">
         <div className="flex relative bg-transparent focus-within:text-white border-gray-600">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-            ₦
+          <span className="absolute text-xs inset-y-0 left-0 flex items-center pl-2">
+            {currency}
           </span>
           <input
             type="number"
             className="text-xs w-28 bg-transparent 
-                focus:outline-none border border-gray-600 pl-5 pr-2
+                focus:outline-none border border-gray-600 pl-9 pr-1
                 focus:border-blue-600"
             value={item.price === 0 ? '' : item.price}
             name="price"
@@ -58,14 +64,14 @@ export const TableRow = ({ item, handleChange, handleRemove }: Props) => {
         </div>
       </Table.Cell>
       <Table.Cell className="px-4">
-        <div className="flex relative w-24 bg-transparent focus-within:text-white border-gray-600">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-            ₦
+        <div className="flex relative  bg-transparent focus-within:text-white border-gray-600">
+          <span className="absolute text-xs inset-y-0 left-0 flex items-center pl-2">
+            {currency}
           </span>
           <input
             type="number"
-            className="text-xs w-24 bg-transparent 
-                focus:outline-none border border-gray-600 pl-5 pr-2
+            className="text-xs w-28 bg-transparent 
+                focus:outline-none border border-gray-600 pl-5 pl-9
                 focus:border-blue-600"
             value={item.discount === 0 ? '' : item.discount}
             name="discount"
@@ -75,7 +81,7 @@ export const TableRow = ({ item, handleChange, handleRemove }: Props) => {
       </Table.Cell>
       <Table.Cell className="px-4">
         <div className="flex border border-gray-600 w-28 bg-transparent border-gray-600">
-          <span className="flex items-center pl-2">₦</span>
+          <span className="flex text-xs items-center pl-2">{currency}</span>
           <span className="text-xs bg-transparent py-2 pl-2 pr-2">
             {item.qty && item.price
               ? formatCurrency(

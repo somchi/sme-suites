@@ -4,7 +4,7 @@ type Props = {
   currentIndex: number;
   previousComponent?: () => void;
   nextComponent?: () => void;
-  generateInvoice?: () => void;
+  generateInvoice?: (e: any) => void;
   disable: boolean;
 };
 

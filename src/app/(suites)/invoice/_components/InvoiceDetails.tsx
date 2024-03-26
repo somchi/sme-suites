@@ -1,14 +1,21 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { NavSteps } from './NavSteps';
 import { Input } from './Input';
-import { Label } from 'flowbite-react';
+import { Label, Select } from 'flowbite-react';
 import { ProdutBreakdown } from './ProductBreakdown';
 import { InvoiceContext } from '../../context/invoice/invoice.context';
-import { SET_INVOICE_DATA } from '../../context/invoice/inovice.reducer';
+import {
+  SET_CURRENCY,
+  SET_INVOICE_DATA,
+} from '../../context/invoice/inovice.reducer';
 import { Dropzone } from '@/app/_components/Dropzone';
 import { DatePicker } from '@/app/_components/ui/datepicker';
 import Image from 'next/image';
 import { CircleX } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { INVOICE, INVOICE_PREVIEW } from '@/site-setting/navigation';
+import { Countries } from '@/app/_utils/currency';
+import { format } from 'date-fns';
 
 type Props = {
   previousStep: () => void;
@@ -16,19 +23,43 @@ type Props = {
 
 const InvoiceDetails = ({ previousStep }: Props) => {
   const { invoiceDispatch, invoiceState } = useContext(InvoiceContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted && !invoiceState.invoice.date) {
+      const date = format(new Date(), 'MMM dd, yyyy');
+
+      invoiceDispatch({
+        type: SET_INVOICE_DATA,
+        payload: {
+          ...invoiceState.invoice,
+          date,
+        },
+      });
+    }
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const disabled = useMemo(() => {
     const product = invoiceState.products[0];
+    const copy: any = { ...product };
+    delete copy['discount'];
+    delete copy['amount'];
     const validate =
-      Object.values(product).includes('') || Object.values(product).includes(0);
+      Object.values(copy).includes('') || Object.values(copy).includes(0);
+
     if (
       !invoiceState.invoice.invoiceNo ||
-      (validate && product.discount !== 0)
+      !invoiceState.invoice.date ||
+      validate
     ) {
       return true;
     }
     return false;
-  }, []);
+  }, [invoiceState.products]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -78,7 +109,15 @@ const InvoiceDetails = ({ previousStep }: Props) => {
     });
   };
 
-  const handleInvoiceGeneration = () => {};
+  const handleInvoiceGeneration = (e: any) => {
+    e.preventDefault();
+    router.push(INVOICE_PREVIEW.href);
+  };
+  const handleSetCurrency = (e: any) => {
+    const value = e.target.value;
+
+    invoiceDispatch({ type: SET_CURRENCY, payload: JSON.parse(value) });
+  };
 
   return (
     <>
@@ -133,15 +172,6 @@ const InvoiceDetails = ({ previousStep }: Props) => {
               </div>
               <div className="grid items-center md:flex w-full gap-4 py-[1rem]">
                 <div className="grid gap-1 w-full md:w-1/2">
-                  <Label className="text-gray-300" htmlFor="Address">
-                    Business Logo
-                  </Label>
-                  <Dropzone upload={handleUpload} />
-                  {data.businessLogo ? (
-                    <span>{data.businessLogo?.name}</span>
-                  ) : null}
-                </div>
-                <div className="grid gap-1 w-full md:w-1/2">
                   <Label className="text-gray-300" htmlFor="dueDate">
                     Due Date
                   </Label>
@@ -150,6 +180,32 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                     onSelect={handleDueDate}
                     placeholder="Due date"
                   />
+                </div>
+                <div className="grid gap-1 w-full md:w-1/2">
+                  <Label className="text-gray-300" htmlFor="Address">
+                    Currency
+                  </Label>
+                  <Select className="" onChange={handleSetCurrency}>
+                    {Countries.map((item) => (
+                      <option
+                        value={JSON.stringify(item)}
+                        selected={item.currency === 'NGN' ? true : false}
+                      >
+                        {item.country}- {item.symbol}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <div className="grid items-center md:flex w-full gap-4 py-[1rem]">
+                <div className="grid gap-1 w-full md:w-1/2">
+                  <Label className="text-gray-300" htmlFor="Address">
+                    Business Logo
+                  </Label>
+                  <Dropzone upload={handleUpload} />
+                  {data.businessLogo ? (
+                    <span>{data.businessLogo?.name}</span>
+                  ) : null}
                 </div>
               </div>
             </div>
