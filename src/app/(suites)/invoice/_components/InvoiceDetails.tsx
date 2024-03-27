@@ -13,7 +13,7 @@ import { DatePicker } from '@/app/_components/ui/datepicker';
 import Image from 'next/image';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { INVOICE, INVOICE_PREVIEW } from '@/site-setting/navigation';
+import { INVOICE_PREVIEW } from '@/site-setting/navigation';
 import { Countries } from '@/app/_utils/currency';
 import { format } from 'date-fns';
 

@@ -15,6 +15,7 @@ import { Button } from '@/app/_components/ui/button';
 import { TEMPLATES } from '@/app/_utils/enums';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { useReactToPrint } from 'react-to-print';
 
 export const Action = () => {
   const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
@@ -37,21 +38,26 @@ export const Action = () => {
   };
 
   const handleDownload = () => {
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4',
-      // putOnlyUsedFonts: true,
-      // floatPrecision: 16, // or "smart", default is 16
-    });
-    doc.setFont('Inter-Regular', 'italic');
-    doc.setFontSize(12);
     const content = document.getElementById('content');
     if (content) {
       html2canvas(content).then((canvas) => {
-        const imgData: any = canvas.toDataURL('image/webp');
-
-        doc.addImage(imgData, 'WEBP', 0, 0, 210, 300);
+        const imgData: any = canvas.toDataURL('image/png');
+        const doc = new jsPDF('p', 'mm', 'a4', true);
+        const width = doc.internal.pageSize.getWidth();
+        const height = doc.internal.pageSize.getHeight();
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+        const ratio = Math.min(width / imgWidth, height / imgHeight);
+        const imgX = (width - imgWidth * ratio) / 2;
+        const imgY = 10;
+        doc.addImage(
+          imgData,
+          'PNG',
+          imgX,
+          imgY,
+          imgWidth * ratio,
+          imgHeight * ratio
+        );
         doc.save('invoice.pdf');
       });
     }
@@ -62,7 +68,7 @@ export const Action = () => {
     for (let [key, value] of Object.entries(BRAND_COLOR)) {
       theme.push(
         <span
-          className={`bg-${value.bgColor} w-[18px] ml-2 h-[18px] rounded-full text-center cursor-pointer inline-block`}
+          className={`${value.bgColor} w-[18px] ml-2 h-[18px] rounded-full text-center cursor-pointer inline-block`}
           onClick={() =>
             handleClick(BRAND_COLOR[key as keyof typeof BRAND_COLOR])
           }
@@ -70,7 +76,6 @@ export const Action = () => {
         >
           <svg
             xmlSpace="preserve"
-            // style={{ enableBackground: 'new 0 0 24 24' }}
             viewBox="0 0 24 24"
             className={`${
               value.bgColor === invoiceState.brandColor.bgColor
@@ -122,40 +127,9 @@ export const Action = () => {
     });
   };
 
-  const handlePrint = () => {
-    const content = document.getElementById('content');
-    if (!content) return;
-    const frame1 = document.createElement('iframe');
-    frame1.name = 'frame1';
-    frame1.style.position = 'absolute';
-    frame1.style.top = '-1000000px';
-    document.body.appendChild(frame1);
-    const frameDoc: any = frame1.contentWindow
-      ? frame1.contentWindow
-      : frame1.contentDocument;
-    if (!frameDoc) return;
-    frameDoc.document.open('', '_blank');
-    frameDoc.document.write('<html><head><title> &nsp;</title>');
-    frameDoc.document.write(
-      '<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"  rel="stylesheet" />'
-    );
-    frameDoc.document.write(
-      '<script src="https://cdn.tailwindcss.com"></script>'
-    );
-    frameDoc.document.write('</head><body>');
-    frameDoc.document.write(content.innerHTML);
-    frameDoc.document.write('</body></html>');
-    frameDoc.document.close();
-
-    setTimeout(function () {
-      const frame = document.getElementsByTagName('iframe')[0].contentWindow;
-
-      if (!frame) return;
-      frame.focus();
-      frame.print();
-      // document.body.removeChild(frame1);
-    }, 500);
-  };
+  const handlePrint = useReactToPrint({
+    content: () => document.getElementById('content'),
+  });
 
   return (
     <div className="grid md:p-6 p-3">

@@ -142,7 +142,7 @@ export const StandardTemplate = () => {
 
   return (
     <div>
-      <div className={`bg-${invoiceState.brandColor.bgColor} w-full h-6`}></div>
+      <div className={`${invoiceState.brandColor.bgColor} w-full h-6`}></div>
       <div className="grid p-6">
         <div className="flex justify-between items-center">
           <div className="grid">
@@ -197,7 +197,7 @@ export const StandardTemplate = () => {
             ) : null}
           </div>
         </div>
-        <hr className={`h-1 bg-${invoiceState.brandColor.bgColor} my-2`} />
+        <hr className={`h-1 ${invoiceState.brandColor.bgColor} my-2`} />
         <div className="grid my-4 mx-6">
           <h2
             className={`${invoiceState.brandColor.textColor} text-sm font-medium`}
@@ -212,7 +212,7 @@ export const StandardTemplate = () => {
               {customer?.address} {customer?.zipCode}
             </span>
             <span className={`${invoiceState.brandColor.textColor} text-xs`}>
-              {customer?.city}, {customer?.state}
+              {customer?.city} {customer?.state ? ', ' + customer.state : ''}
             </span>
             <span className={`${invoiceState.brandColor.textColor} text-xs`}>
               {customer?.email}
@@ -227,27 +227,27 @@ export const StandardTemplate = () => {
             <Table className="relative">
               <Table.Head>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Product
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Quantity
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Price
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Discount
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Amount
                 </Table.HeadCell>
@@ -259,7 +259,7 @@ export const StandardTemplate = () => {
         <div className="grid md:w-1/2 gap-4 w-full justify-self-end">
           <div>
             <hr
-              className={`bg-${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
+              className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
             />
             <div className="flex items-center justify-between gap-4 py-2">
               <p
@@ -274,7 +274,7 @@ export const StandardTemplate = () => {
               </p>
             </div>
             <hr
-              className={`bg-${invoiceState.brandColor.bgColor} w-full h-[1px]`}
+              className={`${invoiceState.brandColor.bgColor} w-full h-[1px]`}
             />
           </div>
 
@@ -317,7 +317,7 @@ export const StandardTemplate = () => {
           </div>
 
           <div
-            className={`flex items-center text-start justify-between bg-${invoiceState.brandColor.bgColor}  px-2 py-2`}
+            className={`flex items-center text-start justify-between ${invoiceState.brandColor.bgColor}  px-2 py-2`}
           >
             <p className={`text-white items-center text-xs`}>Total</p>
             <p className={`text-white items-center text-xs`}>
@@ -325,7 +325,7 @@ export const StandardTemplate = () => {
             </p>
           </div>
         </div>
-        <div className="flex w-full md:w-1/2 mt-8 mb-4">
+        <div className="flex w-full md:w-1/2 mb-4">
           {data.note ? (
             <>
               <div className="flex flex-col justify-end mr-2">
@@ -399,7 +399,7 @@ export const StandardTemplate = () => {
           </Link>
         </span>
       </div>
-      <div className={`bg-${invoiceState.brandColor.bgColor} w-full h-6`}></div>
+      <div className={`${invoiceState.brandColor.bgColor} w-full h-6`}></div>
     </div>
   );
 };

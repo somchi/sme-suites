@@ -49,7 +49,7 @@ export type InvoiceStore = {
   customer: Customer;
   invoice: Invoice;
   products: Product[];
-  brandColor: { bgColor: string; textColor: string };
+  brandColor: { bgColor: string; textColor: string; border: string };
   template: string;
   currentIndex: number;
   taxable: boolean;

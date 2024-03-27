@@ -228,27 +228,27 @@ export const SpreadTemplate = () => {
             <Table className="relative">
               <Table.Head>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Product
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Quantity
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Price
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Discount
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`bg-${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
                 >
                   Amount
                 </Table.HeadCell>
@@ -260,7 +260,7 @@ export const SpreadTemplate = () => {
         <div className="grid md:w-1/2 gap-4 w-full justify-self-end">
           <div>
             <hr
-              className={`bg-${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
+              className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
             />
             <div className="flex items-center justify-between gap-4 pb-0 py-2">
               <p
