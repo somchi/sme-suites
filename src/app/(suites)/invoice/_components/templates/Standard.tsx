@@ -35,7 +35,7 @@ export const StandardTemplate = () => {
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
               >
-                ₦
+                <em>{invoiceState.currency.symbol}</em>
               </span>
               <span
                 className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
@@ -49,7 +49,7 @@ export const StandardTemplate = () => {
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
               >
-                ₦
+                <em>{invoiceState.currency.symbol}</em>
               </span>
               <span
                 className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
@@ -65,7 +65,7 @@ export const StandardTemplate = () => {
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
               >
-                ₦
+                <em>{invoiceState.currency.symbol}</em>
               </span>
               <span
                 className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
@@ -256,7 +256,7 @@ export const StandardTemplate = () => {
             </Table>
           </div>
         </div>
-        <div className="grid md:w-1/2 gap-3 w-full justify-self-end">
+        <div className="grid md:w-1/2 gap-3 w-72 justify-self-end">
           <div className="grid w-full">
             <hr
               className={`${invoiceState.brandColor.bgColor} w-full h-[1px]`}
@@ -328,9 +328,9 @@ export const StandardTemplate = () => {
             </p>
           </div>
         </div>
-        <div className="grid md:w-1/2 gap-4 w-full justify-self-end mt-4">
-          <div className="grid justify-end">
-            {data.signature ? (
+        {data.signature ? (
+          <div className="grid md:w-1/2 gap-4 w-full justify-self-end mt-4">
+            <div className="grid justify-end">
               <div className=" w-16 h-16 relative">
                 <Image
                   src={URL.createObjectURL(data.signature)}
@@ -339,13 +339,16 @@ export const StandardTemplate = () => {
                   fill
                 />
               </div>
-            ) : null}
-            <hr className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`} />
-            <span className="text-black text-xs">
-              {format(new Date(), 'dd/MM/yyyy')}
-            </span>
+
+              <hr
+                className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`}
+              />
+              <span className="text-black text-xs">
+                {format(new Date(), 'dd/MM/yyyy')}
+              </span>
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="flex w-full md:w-1/2 mb-4">
           {data.note ? (
             <>

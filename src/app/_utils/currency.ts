@@ -153,7 +153,7 @@ export const Countries = [
   { currency: 'MYR', symbol: 'RM', country: 'MYR - Malaysian Ringgit (RM)' },
   { currency: 'MZN', symbol: 'MT', country: 'MZN - Metical (MT)' },
   { currency: 'NAD', symbol: '$', country: 'NAD - Namibian Dollar ($)' },
-  { currency: 'NGN', symbol: '₦', country: 'NGN - Naira (NGN)' },
+  { currency: 'NGN', symbol: 'NGN', country: 'NGN - Naira (NGN)' },
   { currency: 'NIO', symbol: 'C$', country: 'NIO - Cordoba Oro (C$)' },
   { currency: 'NOK', symbol: 'kr', country: 'NOK - Norwegian Krone (kr)' },
   { currency: 'NPR', symbol: 'Rp', country: 'NPR - Nepalese Rupee (Rp)' },

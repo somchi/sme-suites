@@ -33,9 +33,9 @@ export const SpreadTemplate = () => {
           <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
-                className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
+                className={`${invoiceState.brandColor.textColor} text-xs flex items-center pl-2`}
               >
-                ₦
+                {invoiceState.currency.symbol}
               </span>
               <span
                 className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
@@ -47,9 +47,9 @@ export const SpreadTemplate = () => {
           <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
-                className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
+                className={`${invoiceState.brandColor.textColor} text-xs flex items-center pl-2`}
               >
-                ₦
+                {invoiceState.currency.symbol}
               </span>
               <span
                 className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
@@ -63,9 +63,9 @@ export const SpreadTemplate = () => {
           <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
-                className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
+                className={`${invoiceState.brandColor.textColor} text-xs flex items-center pl-2`}
               >
-                ₦
+                {invoiceState.currency.symbol}
               </span>
               <span
                 className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
@@ -257,7 +257,7 @@ export const SpreadTemplate = () => {
             </Table>
           </div>
         </div>
-        <div className="grid md:w-1/2 gap-3 w-full justify-self-end">
+        <div className="grid md:w-1/2 gap-3  w-72 justify-self-end">
           <div>
             <hr
               className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
@@ -329,9 +329,9 @@ export const SpreadTemplate = () => {
             className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
           />
         </div>
-        <div className="grid md:w-1/2 gap-4 w-full justify-self-end mt-4">
-          <div className="grid justify-end">
-            {data.signature ? (
+        {data.signature ? (
+          <div className="grid md:w-1/2 gap-4 w-full justify-self-end mt-4">
+            <div className="grid justify-end">
               <div className=" w-16 h-16 relative">
                 <Image
                   src={URL.createObjectURL(data.signature)}
@@ -340,13 +340,16 @@ export const SpreadTemplate = () => {
                   fill
                 />
               </div>
-            ) : null}
-            <hr className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`} />
-            <span className="text-black text-xs">
-              {format(new Date(), 'dd/MM/yyyy')}
-            </span>
+
+              <hr
+                className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`}
+              />
+              <span className="text-black text-xs">
+                {format(new Date(), 'dd/MM/yyyy')}
+              </span>
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="grid ml-2 w-full md:w-1/2 mt-2 mb-4">
           {data.note ? (
             <>

@@ -39,27 +39,34 @@ export const Action = () => {
 
   const handleDownload = () => {
     const content = document.getElementById('content');
+
     if (content) {
-      html2canvas(content).then((canvas) => {
-        const imgData: any = canvas.toDataURL('image/png');
-        const doc = new jsPDF('p', 'mm', 'a4', true);
-        const width = doc.internal.pageSize.getWidth();
-        const height = doc.internal.pageSize.getHeight();
-        const imgWidth = canvas.width;
-        const imgHeight = canvas.height;
-        const ratio = Math.min(width / imgWidth, height / imgHeight);
-        const imgX = (width - imgWidth * ratio) / 2;
-        const imgY = 10;
-        doc.addImage(
-          imgData,
-          'PNG',
-          imgX,
-          imgY,
-          imgWidth * ratio,
-          imgHeight * ratio
-        );
-        doc.save('invoice.pdf');
+      const doc = new jsPDF('p', 'mm', 'a4', true);
+      const width = doc.internal.pageSize.getWidth();
+      doc.html(content.innerHTML, {
+        callback: () => {
+          doc.save('invoice.pdf');
+        },
+        x: 0,
+        y: 0,
+        width: width,
+        windowWidth: 700,
       });
+
+      // html2canvas(content).then((canvas) => {
+      //   const imgData: any = canvas.toDataURL('image/png');
+      //   const doc = new jsPDF('p', 'mm', 'a4', true);
+      //   const width = doc.internal.pageSize.getWidth();
+      //   const height = doc.internal.pageSize.getHeight();
+      //   const imgWidth = canvas.width;
+      //   const imgHeight = canvas.height;
+      //   const ratio = Math.min(width / imgWidth, height / imgHeight);
+      //   const imgX = (width - imgWidth * ratio) / 2;
+      //   const imgY = 10;
+      //   // doc.addImage(imgData, 'PNG', imgX, imgY, width, height);
+      //   doc.html(content.innerHTML);
+      //   doc.save('invoice.pdf');
+      // });
     }
   };
 
