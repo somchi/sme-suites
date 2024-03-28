@@ -16,21 +16,21 @@ export const SpreadTemplate = () => {
     return invoiceState.products.map((item) => {
       return (
         <Table.Row key={item.id}>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <span
               className={`${invoiceState.brandColor.textColor} items-center pl-2`}
             >
               {item.name}
             </span>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4py-1">
             <span
               className={`${invoiceState.brandColor.textColor} items-center pl-2`}
             >
               {item.qty}
             </span>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
@@ -44,7 +44,7 @@ export const SpreadTemplate = () => {
               </span>
             </div>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
@@ -60,7 +60,7 @@ export const SpreadTemplate = () => {
               </span>
             </div>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
@@ -142,7 +142,7 @@ export const SpreadTemplate = () => {
 
   return (
     <div className="grid">
-      <div className="grid p-6">
+      <div className="grid px-6 py-2">
         <div className="flex justify-between items-center">
           <div className="grid my-2">
             <span className={`${invoiceState.brandColor.textColor} text-xs`}>
@@ -176,7 +176,7 @@ export const SpreadTemplate = () => {
           ) : null}
         </div>
 
-        <div className="flex justify-between my-8">
+        <div className="flex justify-between my-4">
           <div className="grid ">
             <h2
               className={`${invoiceState.brandColor.textColor} text-sm font-medium`}
@@ -228,27 +228,27 @@ export const SpreadTemplate = () => {
             <Table className="relative">
               <Table.Head>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Product
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4  py-1`}
                 >
                   Quantity
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4  py-1`}
                 >
                   Price
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4  py-1`}
                 >
                   Discount
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4  py-1`}
                 >
                   Amount
                 </Table.HeadCell>
@@ -257,7 +257,7 @@ export const SpreadTemplate = () => {
             </Table>
           </div>
         </div>
-        <div className="grid md:w-1/2 gap-4 w-full justify-self-end">
+        <div className="grid md:w-1/2 gap-3 w-full justify-self-end">
           <div>
             <hr
               className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
@@ -271,7 +271,7 @@ export const SpreadTemplate = () => {
               <p
                 className={`${invoiceState.brandColor.textColor} items-center text-xs`}
               >
-                NGN {subTotal}
+                <em>{invoiceState.currency.symbol}</em> {subTotal}
               </p>
             </div>
           </div>
@@ -285,7 +285,8 @@ export const SpreadTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {data.tax ? summmary() : 0}
+              <em>{invoiceState.currency.symbol}</em>{' '}
+              {data.tax ? summmary() : 0}
             </p>
           </div>
           <div className="flex items-center justify-between py-0">
@@ -297,7 +298,8 @@ export const SpreadTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {data.delivery ? formatCurrency(data.delivery) : 0}
+              <em>{invoiceState.currency.symbol}</em>{' '}
+              {data.delivery ? formatCurrency(data.delivery) : 0}
             </p>
           </div>
 
@@ -310,19 +312,42 @@ export const SpreadTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {data.discount ? formatCurrency(data.discount) : 0}
+              <em>{invoiceState.currency.symbol}</em>{' '}
+              {data.discount ? formatCurrency(data.discount) : 0}
             </p>
           </div>
-
-          <div className={`flex items-center text-start justify-between py-2`}>
+          <hr
+            className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
+          />
+          <div className={`flex items-center text-start justify-between py-0`}>
             <p className={`text-black items-center text-xs font-bold`}>TOTAL</p>
             <p className={`text-black items-center text-xs`}>
-              NGN {grandTotal}
+              <em>{invoiceState.currency.symbol}</em> {grandTotal}
             </p>
           </div>
+          <hr
+            className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
+          />
         </div>
-
-        <div className="grid ml-2 w-full md:w-1/2 mt-8 mb-4">
+        <div className="grid md:w-1/2 gap-4 w-full justify-self-end mt-4">
+          <div className="grid justify-end">
+            {data.signature ? (
+              <div className=" w-16 h-16 relative">
+                <Image
+                  src={URL.createObjectURL(data.signature)}
+                  alt="Uploaded"
+                  className="border border-transparent"
+                  fill
+                />
+              </div>
+            ) : null}
+            <hr className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`} />
+            <span className="text-black text-xs">
+              {format(new Date(), 'dd/MM/yyyy')}
+            </span>
+          </div>
+        </div>
+        <div className="grid ml-2 w-full md:w-1/2 mt-2 mb-4">
           {data.note ? (
             <>
               <div className="grid items-end mr-2 ">
@@ -379,7 +404,7 @@ export const SpreadTemplate = () => {
           </div>
         </div>
       </div>
-      <div className="grid justify-center items-center mt-8 mb-4">
+      <div className="grid justify-center items-center mt-4 mb-4">
         <span className="text-black text-sm text-center">
           Powered by <em className="font-bold">SMESuites</em>
         </span>

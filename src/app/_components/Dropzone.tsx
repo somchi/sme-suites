@@ -2,11 +2,19 @@
 
 import { FileInput, Label } from 'flowbite-react';
 
-export const Dropzone = ({ upload }: { upload: (e: any) => void }) => {
+export const Dropzone = ({
+  upload,
+  description,
+  from,
+}: {
+  upload: (e: any) => void;
+  description: string;
+  from: string;
+}) => {
   return (
     <div className="flex w-full items-center justify-center">
       <Label
-        htmlFor="dropzone-file"
+        htmlFor={from}
         className="dark:hover:bg-bray-800 flex h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
       >
         <div className="flex flex-col items-center justify-center">
@@ -27,17 +35,18 @@ export const Dropzone = ({ upload }: { upload: (e: any) => void }) => {
           </svg>
           <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">
             <span className="font-semibold">Click</span> or drag and drop your
-            business logo
+            &nbsp;
+            {description}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">PNG or JPG</p>
         </div>
-        <FileInput
-          id="dropzone-file"
-          className="hidden"
-          onChange={upload}
-          accept="image/*"
-        />
       </Label>
+      <FileInput
+        id={from}
+        className="hidden absolute"
+        onChange={upload}
+        accept="image/*"
+      />
     </div>
   );
 };

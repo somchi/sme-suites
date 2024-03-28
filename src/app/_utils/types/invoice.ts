@@ -37,6 +37,7 @@ export type Invoice = {
   date: string;
   dueDate?: string;
   businessLogo?: any;
+  signature?: any;
   note: string;
   terms: string;
   discount: number;

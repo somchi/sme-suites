@@ -51,15 +51,11 @@ const InvoiceDetails = ({ previousStep }: Props) => {
     const validate =
       Object.values(copy).includes('') || Object.values(copy).includes(0);
 
-    if (
-      !invoiceState.invoice.invoiceNo ||
-      !invoiceState.invoice.date ||
-      validate
-    ) {
+    if (!invoiceState.invoice.invoiceNo || !invoiceState.invoice.date) {
       return true;
     }
     return false;
-  }, [invoiceState.products]);
+  }, [invoiceState.products, invoiceState.invoice]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -79,11 +75,23 @@ const InvoiceDetails = ({ previousStep }: Props) => {
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+
     if (files) {
       const businessLogo = files[0];
       invoiceDispatch({
         type: SET_INVOICE_DATA,
         payload: { ...data, businessLogo: businessLogo },
+      });
+    }
+  };
+
+  const handleSignUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const signature = files[0];
+      invoiceDispatch({
+        type: SET_INVOICE_DATA,
+        payload: { ...data, signature: signature },
       });
     }
   };
@@ -140,7 +148,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
         </div>
       ) : null}
       <div className="grid">
-        <form action="bussinessName">
+        <form onSubmit={handleInvoiceGeneration}>
           <div className="grid">
             <div>
               <p>Invoice header</p>
@@ -202,7 +210,11 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                   <Label className="text-gray-300" htmlFor="Address">
                     Business Logo
                   </Label>
-                  <Dropzone upload={handleUpload} />
+                  <Dropzone
+                    upload={handleUpload}
+                    from="logo"
+                    description="business logo"
+                  />
                   {data.businessLogo ? (
                     <span>{data.businessLogo?.name}</span>
                   ) : null}
@@ -243,12 +255,23 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                 />
               </div>
             </div>
+            <div className="grid gap-1 w-full md:w-1/2">
+              <Label className="text-gray-300">Authorized signature</Label>
+              <Dropzone
+                upload={handleSignUpload}
+                from="signature"
+                description="signature"
+              />
+              {data.signature ? (
+                <span className="text-white">{data.signature?.name}</span>
+              ) : null}
+            </div>
           </div>
           <NavSteps
             previousComponent={previousStep}
             currentIndex={2}
             disable={disabled}
-            generateInvoice={handleInvoiceGeneration}
+            // generateInvoice={handleInvoiceGeneration}
           />
         </form>
       </div>

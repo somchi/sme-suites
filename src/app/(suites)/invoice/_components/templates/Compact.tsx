@@ -19,21 +19,21 @@ export const CompactTemplate = () => {
           key={item.id}
           className={`border ${invoiceState.brandColor.border}`}
         >
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <span
               className={`${invoiceState.brandColor.textColor} items-center pl-2`}
             >
               {item.name}
             </span>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <span
               className={`${invoiceState.brandColor.textColor} items-center pl-2`}
             >
               {item.qty}
             </span>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
@@ -47,7 +47,7 @@ export const CompactTemplate = () => {
               </span>
             </div>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
@@ -63,7 +63,7 @@ export const CompactTemplate = () => {
               </span>
             </div>
           </Table.Cell>
-          <Table.Cell className="px-4">
+          <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
                 className={`${invoiceState.brandColor.textColor} flex items-center pl-2`}
@@ -145,7 +145,7 @@ export const CompactTemplate = () => {
 
   return (
     <div>
-      <div className="grid p-6">
+      <div className="grid px-6 py-2">
         <div className="grid justify-center">
           {data.businessLogo ? (
             <div className="grid justify-self-center rounded-full border w-16 h-16 relative ">
@@ -186,7 +186,7 @@ export const CompactTemplate = () => {
         </div>
 
         <hr className={`h-1 ${invoiceState.brandColor.bgColor}`} />
-        <div className="flex justify-between my-8">
+        <div className="flex justify-between my-3">
           <div className="grid ">
             <h2
               className={`${invoiceState.brandColor.textColor} text-sm font-medium`}
@@ -242,27 +242,27 @@ export const CompactTemplate = () => {
             >
               <Table.Head>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Product
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Quantity
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Price
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Discount
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4`}
+                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Amount
                 </Table.HeadCell>
@@ -272,9 +272,9 @@ export const CompactTemplate = () => {
           </div>
         </div>
         <div
-          className={`grid md:w-1/2 gap-4 border border-t-0 ${invoiceState.brandColor.border}  w-full justify-self-end`}
+          className={`grid md:w-1/2 gap-2 border border-t-0 ${invoiceState.brandColor.border}  w-full justify-self-end`}
         >
-          <div className="flex items-center justify-between gap-4 py-2 px-2 ">
+          <div className="flex items-center justify-between gap-4 pt-2 px-2">
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
@@ -283,7 +283,7 @@ export const CompactTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {subTotal}
+              <em>{invoiceState.currency.symbol}</em> {subTotal}
             </p>
           </div>
           <hr className={`${invoiceState.brandColor.bgColor} w-full h-[1px]`} />
@@ -297,7 +297,8 @@ export const CompactTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {data.tax ? summmary() : 0}
+              <em>{invoiceState.currency.symbol}</em>{' '}
+              {data.tax ? summmary() : 0}
             </p>
           </div>
           <hr
@@ -312,7 +313,8 @@ export const CompactTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {data.delivery ? formatCurrency(data.delivery) : 0}
+              <em>{invoiceState.currency.symbol}</em>{' '}
+              {data.delivery ? formatCurrency(data.delivery) : 0}
             </p>
           </div>
           <hr
@@ -327,7 +329,8 @@ export const CompactTemplate = () => {
             <p
               className={`${invoiceState.brandColor.textColor} items-center text-xs`}
             >
-              NGN {data.discount ? formatCurrency(data.discount) : 0}
+              <em>{invoiceState.currency.symbol}</em>{' '}
+              {data.discount ? formatCurrency(data.discount) : 0}
             </p>
           </div>
 
@@ -336,12 +339,29 @@ export const CompactTemplate = () => {
           >
             <p className={`text-white items-center text-xs`}>Total</p>
             <p className={`text-white items-center text-xs`}>
-              NGN {grandTotal}
+              <em>{invoiceState.currency.symbol}</em> {grandTotal}
             </p>
           </div>
         </div>
-
-        <div className="flex w-full md:w-1/2 mt-8 mb-4">
+        <div className="grid md:w-1/2 gap-4 w-full justify-self-end mt-4">
+          <div className="grid justify-end">
+            {data.signature ? (
+              <div className=" w-16 h-16 relative">
+                <Image
+                  src={URL.createObjectURL(data.signature)}
+                  alt="Uploaded"
+                  className="border border-transparent"
+                  fill
+                />
+              </div>
+            ) : null}
+            <hr className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`} />
+            <span className="text-black text-xs">
+              {format(new Date(), 'dd/MM/yyyy')}
+            </span>
+          </div>
+        </div>
+        <div className="flex w-full md:w-1/2 mt-2 mb-4">
           {data.note ? (
             <>
               <div className="flex flex-col justify-end mr-2">
@@ -400,7 +420,7 @@ export const CompactTemplate = () => {
           </div>
         </div>
       </div>
-      <div className="grid justify-center items-center mt-8 mb-4">
+      <div className="grid justify-center items-center mt-4 mb-4">
         <span className="text-black text-sm text-center">
           Powered by <em className="font-bold">SMESuites</em>
         </span>
