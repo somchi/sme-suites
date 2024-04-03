@@ -19,5 +19,10 @@ export const formatCurrency = (
 };
 
 export const defaultCountry = () => {
-  return Countries.find((item) => item.currency === 'NGN');
+  let country = { symbol: '', currency: '', country: '' };
+  const findCountry = Countries.find((item) => item.currency === 'NGN');
+  if (findCountry) {
+    country = findCountry;
+  }
+  return country;
 };

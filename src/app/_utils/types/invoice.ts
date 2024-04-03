@@ -54,5 +54,5 @@ export type InvoiceStore = {
   template: string;
   currentIndex: number;
   taxable: boolean;
-  currency: { country: string; symbol: string; currency: string };
+  currency: { symbol: string; currency: string; country: string };
 };
