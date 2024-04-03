@@ -9,7 +9,7 @@ export default function LandingModules() {
             Built for businesses like yours
           </h2>
           <p className="text-gray-500 sm:text-xl dark:text-gray-400">
-            Here at Adventlabs we focus on markets where technology, innovation,
+            Here at Advent Labs we focus on markets where technology, innovation,
             and capital can unlock long-term value and drive economic growth.
           </p>
         </div>
@@ -152,58 +152,5 @@ export default function LandingModules() {
         </div>
       </div>
     </section>
-    // <>
-    //     <h1>Modules</h1>
-    //     <section className="flex">
-    //         <Card href="/invoice" className="max-w-sm">
-    //             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //                 Invoice
-    //             </h5>
-    //             <p className="font-normal text-gray-700 dark:text-gray-400">
-    //                 Generate your free & customizable invoice.
-    //             </p>
-    //         </Card>
-    //         <Card href="/cost-calculator" className="max-w-sm">
-    //             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //                 Product Cost
-    //             </h5>
-    //             <p className="font-normal text-gray-700 dark:text-gray-400">
-    //                 Calculate the cost of producing an Item.
-    //             </p>
-    //         </Card>
-    //         <Card href="#" className="max-w-sm">
-    //             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //                 Inventory (Raw Materials)
-    //             </h5>
-    //             <p className="font-normal text-gray-700 dark:text-gray-400">
-    //                 Keep tab on materials you use for production.
-    //             </p>
-    //         </Card>
-    //         <Card href="#" className="max-w-sm">
-    //             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //                 Stock (Products)
-    //             </h5>
-    //             <p className="font-normal text-gray-700 dark:text-gray-400">
-    //                 Keep record of what you still have to sell.
-    //             </p>
-    //         </Card>
-    //         <Card href="#" className="max-w-sm">
-    //             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //                 Revenue & Profits
-    //             </h5>
-    //             <p className="font-normal text-gray-700 dark:text-gray-400">
-    //                 Follow your profit and revenue per month
-    //             </p>
-    //         </Card>
-    //         <Card href="#" className="max-w-sm">
-    //             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    //                 Orders Tracker
-    //             </h5>
-    //             <p className="font-normal text-gray-700 dark:text-gray-400">
-    //                 Track and manage your orders automatically
-    //             </p>
-    //         </Card>
-    //     </section>
-    // </>
   );
 }
