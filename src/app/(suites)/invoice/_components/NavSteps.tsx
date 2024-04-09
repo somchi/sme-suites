@@ -17,9 +17,9 @@ export const NavSteps = memo(
     generateInvoice,
   }: Props) => {
     return (
-      <div className="grid md:flex md:justify-between mt-8">
+      <div className="grid md:flex md:justify-between mt-8 gap-2">
         <div
-          className="p-3 w-full lg:w-[100px] bg-red-500 cursor-pointer shadow-sm rounded-lg text-blue-700 border bg-blue-400 focus:border-blue-800 dark:text-white hover:bg-red-600"
+          className="p-3 w-80 bg-red-500 cursor-pointer shadow-sm rounded-lg text-blue-700 border bg-blue-400 focus:border-blue-800 dark:text-white hover:bg-red-600"
           style={{
             visibility: currentIndex === 0 ? 'hidden' : 'visible',
           }}
@@ -27,7 +27,7 @@ export const NavSteps = memo(
           <button
             type="button"
             onClick={previousComponent}
-            className="flex items-center justify-center gap-2"
+            className="flex items-center justify-center gap-2 h-10"
           >
             <svg
               className="w-6 h-6 text-gray-100 dark:text-white"
@@ -53,10 +53,8 @@ export const NavSteps = memo(
             <button
               type="submit"
               disabled={disable}
-              className="py-3 px-3 bg-blue-400 hover:bg-[#4884DA] transition duration-200 ease-in-out 
-              rounded-lg w-full lg:w-52 focus:ring-blue-500  mt-8  lg:mt-0 focus:ring-offset-blue-200 
-              text-white text-center text-base font-semibold shadow-md  disabled:cursor-not-allowed 
-              disabled:bg-slate-500"
+              className="h-16 py-3 px-3 bg-blue-400 hover:bg-[#4884DA] rounded-lg w-full
+              text-white text-center text-base font-semibold shadow-md w-60"
               onClick={generateInvoice}
             >
               Generate Invoice
@@ -66,10 +64,8 @@ export const NavSteps = memo(
               onClick={nextComponent}
               type="submit"
               disabled={disable}
-              className="py-3 px-3 bg-blue-600 hover:bg-blue-700 rounded-lg 
-              w-full md:w-52 
-              text-white text-center font-semibold 
-              shadow-md disabled:cursor-not-allowed disabled:bg-slate-500"
+              className="h-16 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg w-80
+              text-white text-center font-semibold shadow-md"
             >
               Save and Continue
             </button>

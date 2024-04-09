@@ -160,7 +160,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                     <em className="text-red-500 font-bold italic ml-1">*</em>
                   </Label>
                   <Input
-                    placeholder="INV001"
+                    placeholder="Invoice no."
                     value={data.invoiceNo ?? ''}
                     onChange={handleChange}
                     name={'invoiceNo'}
@@ -256,7 +256,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
               </div>
             </div>
             <div className="grid gap-1 w-full md:w-1/2">
-              <Label className="text-gray-300">Authorized signature</Label>
+              <Label className="text-gray-300">Signature</Label>
               <Dropzone
                 upload={handleSignUpload}
                 from="signature"

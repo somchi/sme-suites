@@ -141,7 +141,7 @@ export const Action = () => {
   return (
     <div className="grid md:p-6 p-3">
       <h2 className="text-black font-bold">Download Invoice</h2>
-      <div className="grid md:flex md:flex-wrap gap-4 md:justify-between md:items-center mt-4 mb-6">
+      <div className="grid md:flex md:flex-wrap md:justify-between md:items-center mt-4 mb-2 gap-2">
         <Link
           href={INVOICE.href}
           className="flex items-center gap-2 h-9 px-4 bg-red-400 justify-center hover:bg-red-300 rounded-lg text-white"
@@ -149,7 +149,6 @@ export const Action = () => {
           <Edit size={14} />
           <span className="text-sm">Edit</span>
         </Link>
-
         <Button
           variant={'primary'}
           className="flex items-center"
@@ -158,15 +157,16 @@ export const Action = () => {
           <Download size={14} className="mr-2" />
           <span className="text-sm">Download</span>
         </Button>
-        <Button className="flex items-center" onClick={handlePrint}>
-          <Printer size={14} className="mr-2" />
-          <span className="text-sm">Print</span>
-        </Button>
       </div>
+      <Button className="flex items-center mb-6" onClick={handlePrint}>
+        <Printer size={14} className="mr-2" />
+        <span className="text-sm">Print</span>
+      </Button>
+
       <hr className="h-[1px] bg-gray-400 w-full" />
       <div className="grid py-3">
         <h3 className="text-black font-semibold">Color Theme</h3>
-        <div className="flex gap-4 mt-3 mb-4">{renderTheme()}</div>
+        <div className="flex flex-wrap gap-4 mt-3 mb-4">{renderTheme()}</div>
       </div>
       <hr className="h-[1px] bg-gray-400 w-full" />
       <div className="grid py-3">
