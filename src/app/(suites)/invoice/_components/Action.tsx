@@ -43,6 +43,7 @@ export const Action = () => {
     if (content) {
       const doc = new jsPDF('p', 'mm', 'a4', true);
       const width = doc.internal.pageSize.getWidth();
+
       doc.html(content.innerHTML, {
         callback: () => {
           doc.save('invoice.pdf');
@@ -55,16 +56,16 @@ export const Action = () => {
 
       // html2canvas(content).then((canvas) => {
       //   const imgData: any = canvas.toDataURL('image/png');
-      //   const doc = new jsPDF('p', 'mm', 'a4', true);
+      //   const doc = new jsPDF('p', 'px', 'a4', true);
       //   const width = doc.internal.pageSize.getWidth();
       //   const height = doc.internal.pageSize.getHeight();
       //   const imgWidth = canvas.width;
       //   const imgHeight = canvas.height;
       //   const ratio = Math.min(width / imgWidth, height / imgHeight);
       //   const imgX = (width - imgWidth * ratio) / 2;
-      //   const imgY = 10;
-      //   // doc.addImage(imgData, 'PNG', imgX, imgY, width, height);
-      //   doc.html(content.innerHTML);
+      //   const imgY = 0;
+      //   doc.addImage(imgData, 'PNG', imgX, imgY, width, height);
+
       //   doc.save('invoice.pdf');
       // });
     }

@@ -140,17 +140,23 @@ export const StandardTemplate = () => {
     return total;
   }, [invoiceState.invoice, invoiceState.products, invoiceState.taxable]);
 
+  const logo = useMemo(() => {
+    if (!data.businessLogo) return;
+    const image = data.businessLogo;
+    return image;
+  }, []);
+
   return (
     <div>
       <div className={`${invoiceState.brandColor.bgColor} w-full h-6`}></div>
       <div className="grid px-6 py-2">
         <div className="flex justify-between items-center">
           <div className="grid">
-            {data.businessLogo ? (
+            {data.businessLogo && logo ? (
               <div className="rounded-full border w-16 h-16 relative">
                 <Image
-                  src={URL.createObjectURL(data.businessLogo)}
-                  alt="Uploaded"
+                  src={logo}
+                  alt="business logo"
                   className="rounded-full"
                   fill
                 />
@@ -333,7 +339,7 @@ export const StandardTemplate = () => {
             <div className="grid justify-end">
               <div className=" w-16 h-16 relative">
                 <Image
-                  src={URL.createObjectURL(data.signature)}
+                  src={data.signature}
                   alt="Uploaded"
                   className="border border-transparent"
                   fill
