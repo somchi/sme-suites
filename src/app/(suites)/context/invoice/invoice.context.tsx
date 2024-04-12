@@ -22,6 +22,7 @@ export const INITIAL_STATE: InvoiceStore = {
   currentIndex: 0,
   taxable: false,
   currency: defaultCountry(),
+  saveToDB: false,
 };
 
 export const InvoiceContext = createContext<{

@@ -11,6 +11,7 @@ export const SET_COLOR_THEME = 'SET_COLOR_THEME';
 export const SET_TEMPLATE = 'SET_TEMPLATE';
 export const SET_TAXABLE = 'SET_TAXABLE';
 export const SET_CURRENCY = 'SET_CURRENCY';
+export const SET_SAVE_TO_DB = 'SET_SAVE_TO_DB';
 
 export const invoiceReducer = (state: InvoiceStore, action: any) => {
   switch (action.type) {
@@ -50,6 +51,9 @@ export const invoiceReducer = (state: InvoiceStore, action: any) => {
     }
     case SET_CURRENCY: {
       return { ...state, currency: action.payload };
+    }
+    case SET_SAVE_TO_DB: {
+      return { ...state, saveToDB: action.payload };
     }
     default:
       return state;

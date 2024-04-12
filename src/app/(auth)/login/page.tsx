@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { headers, cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { createClient } from '../_utils/supabase/server';
+import { createClient } from '../../_utils/supabase/server';
 
 export default function Login({
   searchParams,
