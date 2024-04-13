@@ -44,7 +44,7 @@ export const Action = () => {
   };
 
   const handleSaveToDB = async () => {
-    if (invoiceState.saveToDB) return;
+    if (invoiceState.saveToDB || !process.env.NEXT_PUBLIC_SUPABASE_URL) return;
     const supabase = createClient();
 
     const payload = {
