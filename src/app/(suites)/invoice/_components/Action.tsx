@@ -8,14 +8,15 @@ import { InvoiceContext } from '../../context/invoice/invoice.context';
 import {
   SET_CLEAR_DATA,
   SET_COLOR_THEME,
+  SET_SAVE_TO_DB,
   SET_TEMPLATE,
 } from '../../context/invoice/inovice.reducer';
 import { BRAND_COLOR } from '@/app/_utils/contants';
 import { Button } from '@/app/_components/ui/button';
 import { TEMPLATES } from '@/app/_utils/enums';
-import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
+import { createClient } from '@/app/_utils/supabase/client';
 
 export const Action = () => {
   const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
@@ -33,8 +34,27 @@ export const Action = () => {
     invoiceDispatch({ type: SET_COLOR_THEME, payload: theme });
   };
 
+  const handleEdit = () => {
+    invoiceDispatch({ type: SET_SAVE_TO_DB, payload: false });
+    router.push(INVOICE.href);
+  };
+
   const handleTemplateClick = (template: string) => {
     invoiceDispatch({ type: SET_TEMPLATE, payload: template });
+  };
+
+  const handleSaveToDB = async () => {
+    if (invoiceState.saveToDB || !process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    const supabase = createClient();
+
+    const payload = {
+      business: invoiceState.business.businessName,
+      business_email: invoiceState.business.email ?? '',
+      template: invoiceState.template,
+    };
+    const response = await supabase.from('FreeInvoiceUsage').insert(payload);
+    if (response.error !== null) return;
+    invoiceDispatch({ type: SET_SAVE_TO_DB, payload: true });
   };
 
   const handleDownload = () => {
@@ -43,6 +63,7 @@ export const Action = () => {
     if (content) {
       const doc = new jsPDF('p', 'mm', 'a4', true);
       const width = doc.internal.pageSize.getWidth();
+
       doc.html(content.innerHTML, {
         callback: () => {
           doc.save('invoice.pdf');
@@ -52,21 +73,7 @@ export const Action = () => {
         width: width,
         windowWidth: 700,
       });
-
-      // html2canvas(content).then((canvas) => {
-      //   const imgData: any = canvas.toDataURL('image/png');
-      //   const doc = new jsPDF('p', 'mm', 'a4', true);
-      //   const width = doc.internal.pageSize.getWidth();
-      //   const height = doc.internal.pageSize.getHeight();
-      //   const imgWidth = canvas.width;
-      //   const imgHeight = canvas.height;
-      //   const ratio = Math.min(width / imgWidth, height / imgHeight);
-      //   const imgX = (width - imgWidth * ratio) / 2;
-      //   const imgY = 10;
-      //   // doc.addImage(imgData, 'PNG', imgX, imgY, width, height);
-      //   doc.html(content.innerHTML);
-      //   doc.save('invoice.pdf');
-      // });
+      handleSaveToDB();
     }
   };
 
@@ -134,39 +141,49 @@ export const Action = () => {
     });
   };
 
-  const handlePrint = useReactToPrint({
+  const printContent = useReactToPrint({
     content: () => document.getElementById('content'),
   });
+
+  const handlePrint = () => {
+    printContent();
+    handleSaveToDB();
+  };
 
   return (
     <div className="grid md:p-6 p-3">
       <h2 className="text-black font-bold">Download Invoice</h2>
-      <div className="grid md:flex md:flex-wrap gap-4 md:justify-between md:items-center mt-4 mb-6">
-        <Link
-          href={INVOICE.href}
+      <div className="grid md:flex md:flex-wrap md:justify-between md:items-center mt-4 mb-2 gap-2">
+        <Button
+          onClick={handleEdit}
           className="flex items-center gap-2 h-9 px-4 bg-red-400 justify-center hover:bg-red-300 rounded-lg text-white"
         >
           <Edit size={14} />
           <span className="text-sm">Edit</span>
-        </Link>
-
+        </Button>
         <Button
           variant={'primary'}
           className="flex items-center"
           onClick={handleDownload}
+          disabled={invoiceState.business.businessName ? false : true}
         >
           <Download size={14} className="mr-2" />
           <span className="text-sm">Download</span>
         </Button>
-        <Button className="flex items-center" onClick={handlePrint}>
-          <Printer size={14} className="mr-2" />
-          <span className="text-sm">Print</span>
-        </Button>
       </div>
+      <Button
+        className="flex items-center mb-6"
+        onClick={handlePrint}
+        disabled={invoiceState.business.businessName ? false : true}
+      >
+        <Printer size={14} className="mr-2" />
+        <span className="text-sm">Print</span>
+      </Button>
+
       <hr className="h-[1px] bg-gray-400 w-full" />
       <div className="grid py-3">
         <h3 className="text-black font-semibold">Color Theme</h3>
-        <div className="flex gap-4 mt-3 mb-4">{renderTheme()}</div>
+        <div className="flex flex-wrap gap-4 mt-3 mb-4">{renderTheme()}</div>
       </div>
       <hr className="h-[1px] bg-gray-400 w-full" />
       <div className="grid py-3">

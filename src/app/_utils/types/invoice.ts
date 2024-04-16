@@ -55,4 +55,5 @@ export type InvoiceStore = {
   currentIndex: number;
   taxable: boolean;
   currency: { symbol: string; currency: string; country: string };
+  saveToDB: boolean;
 };

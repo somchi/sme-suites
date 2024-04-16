@@ -128,7 +128,7 @@ export const ProdutBreakdown = () => {
     return invoiceState.taxable ? tax : tax + delivery;
   };
 
-  const summmary = () => {
+  const summary = () => {
     const percent = invoiceState.invoice.tax / 100;
     const discount = invoiceState.invoice.discount ?? 0;
     const delivery = invoiceState.invoice.delivery ?? 0;
@@ -232,7 +232,7 @@ export const ProdutBreakdown = () => {
             )}`}</span>
             <div className="flex items-center">
               <span>{invoiceState.currency.symbol}</span>
-              <p className="text-xs">{summmary()}</p>
+              <p className="text-xs">{summary()}</p>
             </div>
           </div>
         ) : null}

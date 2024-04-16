@@ -78,10 +78,19 @@ const InvoiceDetails = ({ previousStep }: Props) => {
 
     if (files) {
       const businessLogo = files[0];
-      invoiceDispatch({
-        type: SET_INVOICE_DATA,
-        payload: { ...data, businessLogo: businessLogo },
-      });
+      let reader: any = new FileReader();
+      let base64String: any = '';
+      if (!reader) return;
+
+      reader.onload = function () {
+        base64String = reader?.result;
+
+        invoiceDispatch({
+          type: SET_INVOICE_DATA,
+          payload: { ...data, businessLogo: base64String },
+        });
+      };
+      reader.readAsDataURL(businessLogo);
     }
   };
 
@@ -89,10 +98,19 @@ const InvoiceDetails = ({ previousStep }: Props) => {
     const files = e.target.files;
     if (files) {
       const signature = files[0];
-      invoiceDispatch({
-        type: SET_INVOICE_DATA,
-        payload: { ...data, signature: signature },
-      });
+      let reader: any = new FileReader();
+      let base64String: any = '';
+      if (!reader) return;
+
+      reader.onload = function () {
+        base64String = reader?.result;
+
+        invoiceDispatch({
+          type: SET_INVOICE_DATA,
+          payload: { ...data, signature: base64String },
+        });
+      };
+      reader.readAsDataURL(signature);
     }
   };
 
@@ -133,7 +151,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
         <div className="flex items-center gap-1 justify-center">
           <div className="rounded-full border w-20 h-20 relative">
             <Image
-              src={URL.createObjectURL(data.businessLogo)}
+              src={data.businessLogo}
               alt="Uploaded"
               className="rounded-full"
               fill
@@ -160,7 +178,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                     <em className="text-red-500 font-bold italic ml-1">*</em>
                   </Label>
                   <Input
-                    placeholder="INV001"
+                    placeholder="Invoice no."
                     value={data.invoiceNo ?? ''}
                     onChange={handleChange}
                     name={'invoiceNo'}
@@ -256,7 +274,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
               </div>
             </div>
             <div className="grid gap-1 w-full md:w-1/2">
-              <Label className="text-gray-300">Authorized signature</Label>
+              <Label className="text-gray-300">Signature</Label>
               <Dropzone
                 upload={handleSignUpload}
                 from="signature"

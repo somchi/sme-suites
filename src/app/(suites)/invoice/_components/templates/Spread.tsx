@@ -167,7 +167,7 @@ export const SpreadTemplate = () => {
           {data.businessLogo ? (
             <div className="rounded-full border w-16 h-16 relative">
               <Image
-                src={URL.createObjectURL(data.businessLogo)}
+                src={data.businessLogo}
                 alt="Uploaded"
                 className="rounded-full"
                 fill
@@ -334,7 +334,7 @@ export const SpreadTemplate = () => {
             <div className="grid justify-end">
               <div className=" w-16 h-16 relative">
                 <Image
-                  src={URL.createObjectURL(data.signature)}
+                  src={data.signature}
                   alt="Uploaded"
                   className="border border-transparent"
                   fill
