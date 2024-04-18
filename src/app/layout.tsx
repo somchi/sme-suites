@@ -7,8 +7,10 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'SMESuite',
-  description: '',
+  title:
+    'SME suites | Simple and Lightweight tools for managing your sales and business activities',
+  description:
+    'Designed exclusively for micro, small, and medium scale businesses, our suite of tools fits your unique challenges. Seamlessly manage expenses, track income, sell online, track orders and much more.',
 };
 
 export default function RootLayout({
