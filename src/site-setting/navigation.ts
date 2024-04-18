@@ -4,3 +4,7 @@ export const INVOICE = {
 export const INVOICE_PREVIEW = {
   href: '/invoice/preview',
 };
+
+export const HOME = {
+  href: '/',
+};
