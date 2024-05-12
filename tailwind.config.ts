@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss';
 import Colors from './src/site-setting/color';
-import { fontFamily } from 'html2canvas/dist/types/css/property-descriptors/font-family';
+
 
 const config = {
   darkMode: ['class'],
@@ -20,9 +20,6 @@ const config = {
       },
     },
     extend: {
-      fontFamily:{
-        'montserrat':  ["Montserrat", 'sans-serif'],
-      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

@@ -2,8 +2,8 @@ import LandingModules from '@/app/_components/LandingModules';
 
 export default async function Index() {
   return (
-    <div className="">
-      <div className="">
+    <div>
+      <div>
         <LandingModules />
       </div>
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
