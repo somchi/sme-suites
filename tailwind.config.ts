@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 import Colors from './src/site-setting/color';
 
+
 const config = {
   darkMode: ['class'],
   content: [
