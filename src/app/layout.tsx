@@ -1,5 +1,6 @@
 import { Montserrat } from 'next/font/google';
 import './globals.css';
+import { keywords } from '@/site-setting/keywords';
 
 const montserrat = Montserrat({ subsets: ['latin'] });
 const host = 'https://www.smesuites.com';
@@ -57,7 +58,7 @@ export const metadata = {
       },
     },
   },
-  // keywords: keywords,
+  keywords: keywords,
 };
 
 export default function RootLayout({
