@@ -9,3 +9,10 @@ export enum TEMPLATES {
   SPREAD = 'Spread',
   COMPACT = 'Compact',
 }
+
+export enum NAV_ITEMS {
+  About = 'about',
+  Tools = 'tools',
+  Coming = 'coming soon',
+  Contact = 'contact',
+}

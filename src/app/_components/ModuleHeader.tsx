@@ -4,7 +4,7 @@ import Link from 'next/link';
 function ModuleHeader() {
   return (
     <div className="pt-6 flex items-center justify-between">
-      <span className="text-lg italic font-bold">SMESuite</span>
+      <span className="text-lg italic font-bold">SMESuites</span>
       <Link href="/" className="bg-gray-800 rounded-3xl p-1 cursor-pointer">
         <svg
           className="w-[25px] h-[25px] fill-current text-white"
