@@ -80,7 +80,7 @@ export const Tools = () => {
             img="/inventory.png"
             imgLeft={true}
             title="Inventory Management"
-            description="Take control of your raw materials inventory. Never run out of essential supplies again with our intuitive inventory management system."
+            description="Take control of your inventory. Never run out of essential supplies again with our intuitive inventory and sales management system."
             link="https://www.buzthrive.com"
           />
           <Tool

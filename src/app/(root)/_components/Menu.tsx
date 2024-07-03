@@ -20,7 +20,7 @@ export const Menu = ({
   };
 
   return (
-    <div className="grid lg:flex items-center md:gap-10 gap-4 font-medium text-lg">
+    <div className="grid md:flex items-center md:gap-10 gap-4 font-medium text-lg">
       <button
         className={`${
           section === NAV_ITEMS.About

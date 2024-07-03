@@ -3,7 +3,7 @@ import { BadgeCheck, CircleArrowOutUpRight } from 'lucide-react';
 
 export const Banner = () => {
   return (
-    <div className="grid md:my-20 my:12 text-black" id="about">
+    <div className="grid md:mt-40 md:mb-6 mt-20 text-black" id="about">
       <div className="flex flex-col items-center">
         <h2 className="text-black font-medium text-5xl leading-relaxed text-center">
           Empower Your Enterprise,

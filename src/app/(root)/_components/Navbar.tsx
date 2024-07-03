@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button } from '../../_components/ui/button';
 import { MobileNav } from './MobileNav';
 import { RootContext } from '../context/provider';
 import { SET_SECTION } from '../context/reducer';
@@ -71,22 +70,31 @@ export const NavBar = () => {
     return () => observer.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // flex justify-between md:items-center pb-2
   return (
-    <div className="flex justify-between md:items-center pb-2">
-      <div className="relative">
-        <Image src="/logo.png" alt="logo" width={150} height={60} />
-      </div>
-      <div className="md:flex hidden justify-end">
-        <Menu section={state.section} setSection={(nav) => setSection(nav)} />
-      </div>
-      <div className="flex md:hidden gap-3">
-        <MobileNav
-          section={state.section}
-          setSection={(nav) => setSection(nav)}
-        />
-      </div>
-    </div>
+    <header
+      id="header"
+      className="fixed flex items-center flex-col top-0 z-50 left-0 
+      w-full transition-all ease-in-out duration-500 h-20 justify-between"
+      style={{
+        backgroundColor: !scrollY ? 'transparent' : '#e3e9ff',
+      }}
+    >
+      <nav className="flex max-w-screen-2xl w-full relative items-center md:px-10 px-6 h-20 justify-between">
+        <div className="relative">
+          <Image src="/logo.png" alt="logo" width={150} height={60} />
+        </div>
+        <div className="md:flex hidden">
+          <Menu section={state.section} setSection={(nav) => setSection(nav)} />
+        </div>
+        <div className="flex md:hidden gap-3">
+          <MobileNav
+            section={state.section}
+            setSection={(nav) => setSection(nav)}
+          />
+        </div>
+      </nav>
+    </header>
   );
 };
 
