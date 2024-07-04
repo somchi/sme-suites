@@ -169,7 +169,14 @@ export const Action = () => {
     const content = document.getElementById('content');
     let dataUrl = '';
     if (content) {
-      const doc = new jsPDF('p', 'mm', 'a4', true);
+      const doc = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts: true,
+        floatPrecision: 'smart',
+        precision: 10,
+      });
       const width = doc.internal.pageSize.getWidth();
       const fileName = 'invoice.pdf';
       doc.html(content.innerHTML, {
@@ -180,7 +187,7 @@ export const Action = () => {
         x: 0,
         y: 0,
         width: width,
-        windowWidth: 700,
+        windowWidth: 800,
       });
     }
     await sleep(3000);
