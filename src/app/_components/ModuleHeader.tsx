@@ -1,10 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function ModuleHeader() {
   return (
     <div className="pt-6 flex items-center justify-between">
-      <span className="text-lg italic font-bold">SMESuites</span>
+      <div className="flex items-center gap-1">
+        <div className="relative">
+          <Image src="/logo-short.png" alt="logo" width={30} height={30} />
+        </div>
+        <span className="text-lg italic font-bold">SMESuites</span>
+      </div>
+
       <Link href="/" className="bg-gray-800 rounded-3xl p-1 cursor-pointer">
         <svg
           className="w-[25px] h-[25px] fill-current text-white"
