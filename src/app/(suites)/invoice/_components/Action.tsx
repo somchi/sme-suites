@@ -1,6 +1,6 @@
 'use client';
 import { INVOICE } from '@/site-setting/navigation';
-import { Download, Edit, Plus, Printer } from 'lucide-react';
+import { Download, Edit, Plus, Printer, Share } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
@@ -17,9 +17,12 @@ import { TEMPLATES } from '@/app/_utils/enums';
 import { jsPDF } from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import { createClient } from '@/app/_utils/supabase/client';
+import html2canvas from 'html2canvas';
+import generatePDF, { Margin } from 'react-to-pdf';
 
 export const Action = () => {
   const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
+
   const router = useRouter();
 
   const handleNewInvoice = () => {
@@ -61,7 +64,14 @@ export const Action = () => {
     const content = document.getElementById('content');
 
     if (content) {
-      const doc = new jsPDF('p', 'mm', 'a4', true);
+      const doc = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts: true,
+        floatPrecision: 'smart',
+        precision: 10,
+      });
       const width = doc.internal.pageSize.getWidth();
 
       doc.html(content.innerHTML, {
@@ -71,8 +81,9 @@ export const Action = () => {
         x: 0,
         y: 0,
         width: width,
-        windowWidth: 700,
+        windowWidth: 800,
       });
+
       handleSaveToDB();
     }
   };
@@ -150,6 +161,58 @@ export const Action = () => {
     handleSaveToDB();
   };
 
+  const sleep = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  const snap = async () => {
+    const content = document.getElementById('content');
+    let dataUrl = '';
+    if (content) {
+      const doc = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts: true,
+        floatPrecision: 'smart',
+        precision: 10,
+      });
+      const width = doc.internal.pageSize.getWidth();
+      const fileName = 'invoice.pdf';
+      doc.html(content.innerHTML, {
+        callback: () => {
+          const url = doc.output('datauristring', { filename: fileName });
+          dataUrl = url;
+        },
+        x: 0,
+        y: 0,
+        width: width,
+        windowWidth: 800,
+      });
+    }
+    await sleep(3000);
+
+    return dataUrl;
+  };
+
+  const handleShare = async (e: any) => {
+    e.preventDefault();
+    const dataURI = await snap();
+    const blob = await (await fetch(dataURI)).blob();
+
+    const fileName = 'invoice.pdf';
+
+    const file = new File([blob], fileName, { type: blob.type });
+    const shareData = {
+      title: 'Invoice',
+      files: [file],
+    };
+    try {
+      await navigator.share(shareData);
+      handleSaveToDB();
+    } catch (err) {}
+  };
+
   return (
     <div className="grid md:p-6 p-3">
       <h2 className="text-black font-bold">Download Invoice</h2>
@@ -171,14 +234,24 @@ export const Action = () => {
           <span className="text-sm">Download</span>
         </Button>
       </div>
-      <Button
-        className="flex items-center mb-6"
-        onClick={handlePrint}
-        disabled={invoiceState.business.businessName ? false : true}
-      >
-        <Printer size={14} className="mr-2" />
-        <span className="text-sm">Print</span>
-      </Button>
+      <div className="grid md:flex md:flex-wrap md:justify-between md:items-center mt-4 mb-2 gap-2">
+        <Button
+          className="flex items-center md:w-2/4 gap-2 h-9 px-4 bg-theme-secondary justify-center hover:bg-theme-secondary/80 rounded-lg text-white"
+          onClick={handleShare}
+          disabled={invoiceState.business.businessName ? false : true}
+        >
+          <Share size={16} />
+          <span>Share</span>
+        </Button>
+        <Button
+          className="flex items-center"
+          onClick={handlePrint}
+          disabled={invoiceState.business.businessName ? false : true}
+        >
+          <Printer size={14} className="mr-2" />
+          <span className="text-sm">Print</span>
+        </Button>
+      </div>
 
       <hr className="h-[1px] bg-gray-400 w-full" />
       <div className="grid py-3">

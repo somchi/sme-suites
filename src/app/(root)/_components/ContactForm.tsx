@@ -4,8 +4,6 @@ import { SnackBar } from '@/app/_components/Snackbar';
 import { Button } from '@/app/_components/ui/button';
 import ButtonLoader from '@/app/_components/ui/button-loader';
 import { createClient } from '@/app/_utils/supabase/client';
-import { error } from 'console';
-import { sub } from 'date-fns';
 import { FormEvent, useState } from 'react';
 
 export const ContactForm = () => {
