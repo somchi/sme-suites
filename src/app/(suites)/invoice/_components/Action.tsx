@@ -202,6 +202,7 @@ export const Action = () => {
     };
     try {
       await navigator.share(shareData);
+      handleSaveToDB();
     } catch (err) {}
   };
 
