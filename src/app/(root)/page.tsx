@@ -1,24 +1,29 @@
-import LandingModules from '@/app/_components/LandingModules';
+import Footer from './_components/Footer';
+import NavBar from './_components/Navbar';
+import { Banner } from './_components/Banner';
+import { Tools } from './_components/Tools';
+import { Buzthrive } from './_components/Buzthrive';
+import { ComingSoon } from './_components/ComingSoon';
+import { GetStarted } from './_components/GetStarted';
+import { Contact } from './_components/Contact';
 
 export default async function Index() {
   return (
-    <div>
-      <div>
-        <LandingModules />
-      </div>
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{' '}
-          <a
-            href="https://adventlabs.ng"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Adventlabs
-          </a>
-        </p>
-      </footer>
-    </div>
+    <>
+      <main className="flex flex-col md:py-6 md:px-16 p-8 items-center">
+        <div className="flex flex-col max-w-screen-2xl min-w-full">
+          <NavBar />
+        </div>
+        <div className="flex flex-col max-w-screen-2xl">
+          <Banner />
+          <Tools />
+          <Buzthrive />
+          <ComingSoon />
+          <GetStarted />
+          <Contact />
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }
