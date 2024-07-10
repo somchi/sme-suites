@@ -11,7 +11,6 @@ function ModuleHeader() {
         </div>
         <span className="text-lg italic font-bold">SMESuites</span>
       </div>
-
       <Link href="/" className="bg-gray-800 rounded-3xl p-1 cursor-pointer">
         <svg
           className="w-[25px] h-[25px] fill-current text-white"
