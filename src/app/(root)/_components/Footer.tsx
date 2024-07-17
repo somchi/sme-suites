@@ -49,6 +49,8 @@ const Footer = () => {
               <a
                 href="https://www.linkedin.com/company/smesuite/"
                 className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg
                   className="w-6 h-6"
