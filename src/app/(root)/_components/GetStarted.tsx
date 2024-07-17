@@ -36,7 +36,7 @@ export const GetStarted = () => {
           <Card
             number="2"
             title="Get started"
-            description="Click on the any of the tools to get started"
+            description="Click on any of the tools to get started"
           />
           <Card
             number="3"

@@ -89,7 +89,7 @@ export const ContactForm = () => {
       )}
 
       <div>
-        <h2 className="text-2xl leading-9 font-medium">Join our newletter</h2>
+        <h2 className="text-2xl leading-9 font-medium">Join our newsletter</h2>
         <h3 className="text-red-600 font-medium">{subMsg.error}</h3>
         <div className="md:flex grid ">
           <p className="text-xl md:w-1/3">
