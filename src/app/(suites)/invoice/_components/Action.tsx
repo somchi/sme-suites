@@ -17,8 +17,6 @@ import { TEMPLATES } from '@/app/_utils/enums';
 import { jsPDF } from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import { createClient } from '@/app/_utils/supabase/client';
-import html2canvas from 'html2canvas';
-import generatePDF, { Margin } from 'react-to-pdf';
 
 export const Action = () => {
   const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);

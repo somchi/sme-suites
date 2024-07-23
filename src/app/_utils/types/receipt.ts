@@ -1,7 +1,7 @@
 import { Business, Customer, Product } from '.';
 
-export type Invoice = {
-  invoiceNo: string;
+export type Receipt = {
+  receiptNo: string;
   date: string;
   dueDate?: string;
   businessLogo?: any;
@@ -13,10 +13,10 @@ export type Invoice = {
   tax: number;
 };
 
-export type InvoiceStore = {
+export type ReceiptStore = {
   business: Business;
   customer: Customer;
-  invoice: Invoice;
+  receipt: Receipt;
   products: Product[];
   brandColor: { bgColor: string; textColor: string; border: string };
   template: string;

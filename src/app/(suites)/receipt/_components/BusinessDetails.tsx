@@ -2,40 +2,40 @@ import { useContext, useMemo } from 'react';
 import { NavSteps } from './NavSteps';
 import { Label } from 'flowbite-react';
 import { Input } from '../../_components/Input';
-import { InvoiceContext } from '../../context/invoice/invoice.context';
-import { SET_BUSINESS_DATA } from '../../context/invoice/inovice.reducer';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
+import { SET_BUSINESS_DATA } from '../../context/receipt/receipt.reducer';
 
 type Props = {
   nextStep: () => void;
 };
 
 const BusinessDetails = ({ nextStep }: Props) => {
-  const { invoiceDispatch, invoiceState } = useContext(InvoiceContext);
+  const { receiptDispatch, receiptState } = useContext(ReceiptContext);
 
   const disabled = useMemo(() => {
     if (
-      !invoiceState.business.name ||
-      !invoiceState.business.phone ||
-      !invoiceState.business.businessName
+      !receiptState.business.name ||
+      !receiptState.business.phone ||
+      !receiptState.business.businessName
     ) {
       return true;
     }
     return false;
-  }, [invoiceState.business]);
+  }, [receiptState.business]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const field = target.name;
     const value = target.value;
-    invoiceDispatch({
+    receiptDispatch({
       type: SET_BUSINESS_DATA,
-      payload: { ...invoiceState.business, [field]: value },
+      payload: { ...receiptState.business, [field]: value },
     });
   };
 
   const data = useMemo(() => {
-    return invoiceState.business;
-  }, [invoiceState.business]);
+    return receiptState.business;
+  }, [receiptState.business]);
 
   return (
     <>

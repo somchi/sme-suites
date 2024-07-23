@@ -1,4 +1,4 @@
-import { Product } from '@/app/_utils/types/invoice';
+import { Product } from '@/app/_utils/types';
 import { formatCurrency } from '@/app/_utils/utils';
 import { Table } from 'flowbite-react';
 

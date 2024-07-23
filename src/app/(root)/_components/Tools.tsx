@@ -69,6 +69,7 @@ export const Tools = () => {
             link="/invoice"
             img="/invoice.png"
           />
+
           <Tool
             img="/productCost.png"
             imgLeft={false}
@@ -77,15 +78,24 @@ export const Tools = () => {
             link=""
           />
           <Tool
-            img="/inventory.png"
             imgLeft={true}
+            title="Generate Receipt"
+            description="Easily create professional receiptd tailored to your businesses.
+          Impress clients with polished documents that reflect your
+          professionalism"
+            link="/receipt"
+            img="/invoice.png"
+          />
+          <Tool
+            img="/inventory.png"
+            imgLeft={false}
             title="Inventory Management"
             description="Take control of your inventory. Never run out of essential supplies again with our intuitive inventory and sales management system."
             link="https://www.buzthrive.com"
           />
           <Tool
             img="/stock.png"
-            imgLeft={false}
+            imgLeft={true}
             title="Stock Tracking"
             description="Keep tabs on your product stock levels with precision. Ensure timely restocking and avoid missed opportunities with our stock tracking feature."
             link=""

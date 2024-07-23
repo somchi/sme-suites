@@ -1,11 +1,11 @@
 import React from 'react';
-import { InvoiceTemplate } from '../../_components/templates';
+import { ReceiptTemplate } from '../../_components/templates/ReceiptTeplate';
 
 function PreviewPage() {
   return (
     <div className="bg-white w-full shadow-sm rounded">
       <div className="w-full rounded-t-lg  gap-12">
-        <InvoiceTemplate />
+        <ReceiptTemplate />
       </div>
     </div>
   );
