@@ -1,47 +1,53 @@
 'use client';
 
 import { InvoiceContext } from '@/app/(suites)/context/invoice/invoice.context';
-import { Product } from '@/app/_utils/types/invoice';
+import { Product } from '@/app/_utils/types';
 import { formatCurrency } from '@/app/_utils/utils';
 import { Table } from 'flowbite-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useMemo } from 'react';
 import { format } from 'date-fns';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
+import { usePathname } from 'next/navigation';
+import { RECEIPT_PREVIEW } from '@/site-setting/navigation';
 
 export const CompactTemplate = () => {
   const { invoiceState } = useContext(InvoiceContext);
+  const { receiptState } = useContext(ReceiptContext);
+
+  const pathname = usePathname();
+
+  const state: any = useMemo(() => {
+    return pathname === RECEIPT_PREVIEW.href ? receiptState : invoiceState;
+  }, [invoiceState, receiptState]);
 
   const renderProducts = () => {
-    return invoiceState.products.map((item) => {
+    return state.products.map((item: Product) => {
       return (
         <Table.Row
           key={item.id}
-          className={`border ${invoiceState.brandColor.border}`}
+          className={`border ${state.brandColor.border}`}
         >
           <Table.Cell className="px-4 py-1">
-            <span
-              className={`${invoiceState.brandColor.textColor} items-center pl-2`}
-            >
+            <span className={`${state.brandColor.textColor} items-center pl-2`}>
               {item.name}
             </span>
           </Table.Cell>
           <Table.Cell className="px-4 py-1">
-            <span
-              className={`${invoiceState.brandColor.textColor} items-center pl-2`}
-            >
+            <span className={`${state.brandColor.textColor} items-center pl-2`}>
               {item.qty}
             </span>
           </Table.Cell>
           <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
-                className={`${invoiceState.brandColor.textColor} text-xs flex items-center pl-2`}
+                className={`${state.brandColor.textColor} text-xs flex items-center pl-2`}
               >
-                {invoiceState.currency.symbol}
+                {state.currency.symbol}
               </span>
               <span
-                className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
+                className={`${state.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
               >
                 {formatCurrency(parseFloat(item.price.toString()))}
               </span>
@@ -50,12 +56,12 @@ export const CompactTemplate = () => {
           <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
-                className={`${invoiceState.brandColor.textColor} text-xs flex items-center pl-2`}
+                className={`${state.brandColor.textColor} text-xs flex items-center pl-2`}
               >
-                {invoiceState.currency.symbol}
+                {state.currency.symbol}
               </span>
               <span
-                className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
+                className={`${state.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
               >
                 {item.discount
                   ? formatCurrency(parseFloat(item.discount.toString()))
@@ -66,12 +72,12 @@ export const CompactTemplate = () => {
           <Table.Cell className="px-4 py-1">
             <div className="flex w-28 bg-transparent border-gray-600">
               <span
-                className={`${invoiceState.brandColor.textColor} text-xs flex items-center pl-2`}
+                className={`${state.brandColor.textColor} text-xs flex items-center pl-2`}
               >
-                {invoiceState.currency.symbol}
+                {state.currency.symbol}
               </span>
               <span
-                className={`${invoiceState.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
+                className={`${state.brandColor.textColor} text-xs bg-transparent py-2 pl-2 pr-2`}
               >
                 {item.qty && item.price
                   ? formatCurrency(
@@ -89,16 +95,16 @@ export const CompactTemplate = () => {
   };
 
   const data = useMemo(() => {
-    return invoiceState.invoice;
-  }, [invoiceState.invoice]);
+    return pathname === RECEIPT_PREVIEW.href ? state.receipt : state.invoice;
+  }, [state.invoice, state.receipt]);
 
   const business = useMemo(() => {
-    return invoiceState.business;
-  }, [invoiceState.invoice]);
+    return pathname === RECEIPT_PREVIEW.href ? state.business : state.business;
+  }, [state.invoice, state.receipt]);
 
   const customer = useMemo(() => {
-    return invoiceState.customer;
-  }, [invoiceState.invoice]);
+    return state.customer;
+  }, [state.invoice, state.receipt]);
 
   const sum = (products: Product[]) => {
     return products.reduce(
@@ -108,40 +114,40 @@ export const CompactTemplate = () => {
   };
 
   const subTotal = useMemo(() => {
-    const total = sum(invoiceState.products) ?? 0;
+    const total = sum(state.products) ?? 0;
     return total;
-  }, [invoiceState.products]);
+  }, [state.products]);
 
   const taxValue = () => {
-    const percent = invoiceState.invoice.tax / 100;
-    const discount = invoiceState.invoice.discount ?? 0;
-    const delivery = invoiceState.invoice.delivery ?? 0;
-    const total = invoiceState.taxable
-      ? sum(invoiceState.products) - discount + delivery
-      : sum(invoiceState.products) - discount;
+    const percent = data.tax / 100;
+    const discount = data.discount ?? 0;
+    const delivery = data.delivery ?? 0;
+    const total = state.taxable
+      ? sum(state.products) - discount + delivery
+      : sum(state.products) - discount;
     const tax = total * percent + total;
-    return invoiceState.taxable ? tax : tax + delivery;
+    return state.taxable ? tax : tax + delivery;
   };
 
   const summmary = () => {
-    const percent = invoiceState.invoice.tax / 100;
-    const discount = invoiceState.invoice.discount ?? 0;
-    const delivery = invoiceState.invoice.delivery ?? 0;
-    const total = invoiceState.taxable
-      ? sum(invoiceState.products) - discount + delivery
-      : sum(invoiceState.products) - discount;
+    const percent = data.tax / 100;
+    const discount = data.discount ?? 0;
+    const delivery = data.delivery ?? 0;
+    const total = state.taxable
+      ? sum(state.products) - discount + delivery
+      : sum(state.products) - discount;
     const tax = total * percent;
     return tax;
   };
 
   const grandTotal = useMemo(() => {
-    const subTotal = sum(invoiceState.products) ?? 0;
-    const discount = invoiceState.invoice.discount ?? 0;
-    const delivery = invoiceState.invoice.delivery ?? 0;
-    const tax = !invoiceState.invoice.tax ? 0 : invoiceState.invoice.tax / 100;
+    const subTotal = sum(state.products) ?? 0;
+    const discount = data.discount ?? 0;
+    const delivery = data.delivery ?? 0;
+    const tax = !data.tax ? 0 : data.tax / 100;
     const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [invoiceState.invoice, invoiceState.products, invoiceState.taxable]);
+  }, [data, state.products, state.taxable]);
 
   return (
     <div>
@@ -159,12 +165,12 @@ export const CompactTemplate = () => {
           ) : null}
           <div className="grid my-2">
             <span
-              className={`${invoiceState.brandColor.textColor} text-xs text-center`}
+              className={`${state.brandColor.textColor} text-xs text-center`}
             >
               {business.businessName}
             </span>
             <span
-              className={`${invoiceState.brandColor.textColor} text-xs text-center`}
+              className={`${state.brandColor.textColor} text-xs text-center`}
             >
               {business?.address}
               {business?.zipCode ? ', ' + business.zipCode : ''}
@@ -173,60 +179,66 @@ export const CompactTemplate = () => {
               {business?.country ? ', ' + business.country : ''}
             </span>
             <span
-              className={`${invoiceState.brandColor.textColor} text-xs text-center`}
+              className={`${state.brandColor.textColor} text-xs text-center`}
             >
               {business?.email}
             </span>
             <span
-              className={`${invoiceState.brandColor.textColor} text-xs text-center`}
+              className={`${state.brandColor.textColor} text-xs text-center`}
             >
               {business?.phone}
             </span>
           </div>
         </div>
 
-        <hr className={`h-1 ${invoiceState.brandColor.bgColor}`} />
+        <hr className={`h-1 ${state.brandColor.bgColor}`} />
         <div className="flex justify-between my-3">
           <div className="grid ">
-            <h2
-              className={`${invoiceState.brandColor.textColor} text-sm font-medium`}
-            >
+            <h2 className={`${state.brandColor.textColor} text-sm font-medium`}>
               Bill To:
             </h2>
             <div className="grid">
-              <span className={`${invoiceState.brandColor.textColor} text-xs`}>
+              <span className={`${state.brandColor.textColor} text-xs`}>
                 {customer.name}
               </span>
-              <span className={`${invoiceState.brandColor.textColor} text-xs`}>
+              <span className={`${state.brandColor.textColor} text-xs`}>
                 {customer?.address} {customer?.zipCode}
               </span>
-              <span className={`${invoiceState.brandColor.textColor} text-xs`}>
+              <span className={`${state.brandColor.textColor} text-xs`}>
                 {customer?.city} {customer.state ? `,${customer.state}` : ''}
               </span>
-              <span className={`${invoiceState.brandColor.textColor} text-xs`}>
+              <span className={`${state.brandColor.textColor} text-xs`}>
                 {customer?.email}
               </span>
-              <span className={`${invoiceState.brandColor.textColor} text-xs`}>
+              <span className={`${state.brandColor.textColor} text-xs`}>
                 {customer?.phone}
               </span>
             </div>
           </div>
           <div className="grid">
             <h2
-              className={`${invoiceState.brandColor.textColor} text-2xl font-semibold`}
+              className={`${state.brandColor.textColor} text-2xl font-semibold`}
             >
-              Invoice
+              {pathname === RECEIPT_PREVIEW.href ? 'Receipt' : 'Invoice'}
             </h2>
-            <span className={`${invoiceState.brandColor.textColor} text-sm`}>
-              Invoice# <em>{data.invoiceNo}</em>
+            <span className={`${state.brandColor.textColor} text-sm`}>
+              {pathname === RECEIPT_PREVIEW.href ? 'Receipt#' : 'Invoice#'}{' '}
+              <em>
+                {pathname === RECEIPT_PREVIEW.href
+                  ? data.receiptNo
+                  : data.invoiceNo}
+              </em>
             </span>
             {data.date ? (
-              <span className={`${invoiceState.brandColor.textColor} text-sm`}>
-                Invoice Date# <em>{format(data.date, 'MMM dd, yyyy')}</em>
+              <span className={`${state.brandColor.textColor} text-sm`}>
+                {pathname === RECEIPT_PREVIEW.href
+                  ? 'Receipt Date#'
+                  : 'Invoice Date#'}{' '}
+                <em>{format(data.date, 'MMM dd, yyyy')}</em>
               </span>
             ) : null}
             {data.dueDate ? (
-              <span className={`${invoiceState.brandColor.textColor} text-sm`}>
+              <span className={`${state.brandColor.textColor} text-sm`}>
                 Due Date# <em>{format(data.dueDate, 'MMM dd, yyyy')}</em>
               </span>
             ) : null}
@@ -236,33 +248,33 @@ export const CompactTemplate = () => {
         <div className="w-full overflow-x-auto">
           <div className="overflow-x-auto">
             <Table
-              className={`relative bg-white border ${invoiceState.brandColor.border} `}
+              className={`relative bg-white border ${state.brandColor.border} `}
               striped
               hoverable
             >
               <Table.Head>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
+                  className={`${state.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Product
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
+                  className={`${state.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Quantity
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
+                  className={`${state.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Price
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
+                  className={`${state.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Discount
                 </Table.HeadCell>
                 <Table.HeadCell
-                  className={`${invoiceState.brandColor.bgColor} text-white text-xs px-4 py-1`}
+                  className={`${state.brandColor.bgColor} text-white text-xs px-4 py-1`}
                 >
                   Amount
                 </Table.HeadCell>
@@ -272,74 +284,53 @@ export const CompactTemplate = () => {
           </div>
         </div>
         <div
-          className={`grid md:w-1/2 gap-2 border border-t-0 ${invoiceState.brandColor.border} w-72 justify-self-end`}
+          className={`grid md:w-1/2 gap-2 border border-t-0 ${state.brandColor.border} w-72 justify-self-end`}
         >
           <div className="flex items-center justify-between gap-4 pt-2 px-2">
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
               Subtotal
             </p>
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
-              <em>{invoiceState.currency.symbol}</em> {subTotal}
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
+              <em>{state.currency.symbol}</em> {subTotal}
             </p>
           </div>
-          <hr className={`${invoiceState.brandColor.bgColor} w-full h-[1px]`} />
+          <hr className={`${state.brandColor.bgColor} w-full h-[1px]`} />
 
           <div className="flex items-center justify-between px-2">
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
               Tax
             </p>
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
-              <em>{invoiceState.currency.symbol}</em>{' '}
-              {data.tax ? summmary() : 0}
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
+              <em>{state.currency.symbol}</em> {data.tax ? summmary() : 0}
             </p>
           </div>
-          <hr
-            className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
-          />
+          <hr className={`${state.brandColor.bgColor} w-full  h-[1px]`} />
           <div className="flex items-center justify-between py-0 px-2">
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
               Delivery
             </p>
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
-              <em>{invoiceState.currency.symbol}</em>{' '}
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
+              <em>{state.currency.symbol}</em>{' '}
               {data.delivery ? formatCurrency(data.delivery) : 0}
             </p>
           </div>
-          <hr
-            className={`${invoiceState.brandColor.bgColor} w-full  h-[1px]`}
-          />
+          <hr className={`${state.brandColor.bgColor} w-full  h-[1px]`} />
           <div className="flex items-center justify-between py-0 px-2">
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
               Discount
             </p>
-            <p
-              className={`${invoiceState.brandColor.textColor} items-center text-xs`}
-            >
-              <em>{invoiceState.currency.symbol}</em>{' '}
+            <p className={`${state.brandColor.textColor} items-center text-xs`}>
+              <em>{state.currency.symbol}</em>{' '}
               {data.discount ? formatCurrency(data.discount) : 0}
             </p>
           </div>
 
           <div
-            className={`flex items-center text-start justify-between ${invoiceState.brandColor.bgColor}  px-2 py-2`}
+            className={`flex items-center text-start justify-between ${state.brandColor.bgColor}  px-2 py-2`}
           >
             <p className={`text-white items-center text-xs`}>Total</p>
             <p className={`text-white items-center text-xs`}>
-              <em>{invoiceState.currency.symbol}</em> {grandTotal}
+              <em>{state.currency.symbol}</em> {grandTotal}
             </p>
           </div>
         </div>
@@ -355,9 +346,7 @@ export const CompactTemplate = () => {
                 />
               </div>
 
-              <hr
-                className={`h-[1px] ${invoiceState.brandColor.bgColor} my-2`}
-              />
+              <hr className={`h-[1px] ${state.brandColor.bgColor} my-2`} />
               <span className="text-black text-xs">
                 {format(new Date(), 'dd/MM/yyyy')}
               </span>
@@ -369,12 +358,12 @@ export const CompactTemplate = () => {
             <>
               <div className="flex flex-col justify-end mr-2">
                 <h6
-                  className={`${invoiceState.brandColor.textColor} text-xs font-semibold`}
+                  className={`${state.brandColor.textColor} text-xs font-semibold`}
                 >
                   Note
                 </h6>
                 <span
-                  className={`${invoiceState.brandColor.textColor} italic text-xs`}
+                  className={`${state.brandColor.textColor} italic text-xs`}
                 >
                   {data.note}
                 </span>
@@ -386,12 +375,12 @@ export const CompactTemplate = () => {
             {data.terms ? (
               <div className="grid">
                 <h6
-                  className={`${invoiceState.brandColor.textColor} text-xs font-semibold`}
+                  className={`${state.brandColor.textColor} text-xs font-semibold`}
                 >
                   Terms & Conditions
                 </h6>
                 <span
-                  className={`${invoiceState.brandColor.textColor} italic text-xs`}
+                  className={`${state.brandColor.textColor} italic text-xs`}
                 >
                   {data.terms}
                 </span>
@@ -399,23 +388,17 @@ export const CompactTemplate = () => {
             ) : null}
             <div className="grid mt-3">
               {business.bank ? (
-                <p
-                  className={`${invoiceState.brandColor.textColor} italic text-xs`}
-                >
+                <p className={`${state.brandColor.textColor} italic text-xs`}>
                   Bank: <span>{business.bank}</span>
                 </p>
               ) : null}
               {business.accNumber ? (
-                <p
-                  className={`${invoiceState.brandColor.textColor} italic text-xs`}
-                >
+                <p className={`${state.brandColor.textColor} italic text-xs`}>
                   Account No.: <span>{business.accNumber}</span>
                 </p>
               ) : null}
               {business.holderName ? (
-                <p
-                  className={`${invoiceState.brandColor.textColor} italic text-xs`}
-                >
+                <p className={`${state.brandColor.textColor} italic text-xs`}>
                   Account Name: <span>{business.holderName}</span>
                 </p>
               ) : null}

@@ -13,7 +13,7 @@ import { DatePicker } from '@/app/_components/ui/datepicker';
 import Image from 'next/image';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { INVOICE_PREVIEW } from '@/site-setting/navigation';
+import { INVOICE_PREVIEW, RECEIPT_PREVIEW } from '@/site-setting/navigation';
 import { Countries } from '@/app/_utils/currency';
 import { format } from 'date-fns';
 
@@ -68,7 +68,7 @@ const ReceiptDetails = ({ previousStep }: Props) => {
       payload: { ...receiptState.receipt, [field]: value },
     });
   };
-
+  console.log(receiptState.receipt);
   const data = useMemo(() => {
     return receiptState.receipt;
   }, [receiptState.receipt]);
@@ -135,9 +135,16 @@ const ReceiptDetails = ({ previousStep }: Props) => {
     });
   };
 
+  const removeSignature = () => {
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
+      payload: { ...data, signature: '' },
+    });
+  };
+
   const handleReceiptGeneration = (e: any) => {
     e.preventDefault();
-    router.push(INVOICE_PREVIEW.href);
+    router.push(RECEIPT_PREVIEW.href);
   };
   const handleSetCurrency = (e: any) => {
     const value = e.target.value;
@@ -275,21 +282,33 @@ const ReceiptDetails = ({ previousStep }: Props) => {
             </div>
             <div className="grid gap-1 w-full md:w-1/2">
               <Label className="text-gray-300">Signature</Label>
-              <Dropzone
-                upload={handleSignUpload}
-                from="signature"
-                description="signature"
-              />
+
               {data.signature ? (
-                <span className="text-white">{data.signature?.name}</span>
-              ) : null}
+                <div className="flex items-center gap-1 justify-center">
+                  <div className=" border w-20 h-12 relative">
+                    <Image src={data.signature} alt="Uploaded" fill />
+                  </div>
+                  <CircleX
+                    size={14}
+                    color="red"
+                    onClick={removeSignature}
+                    className="cursor-pointer"
+                  />
+                </div>
+              ) : (
+                <Dropzone
+                  upload={handleSignUpload}
+                  from="signature"
+                  description="signature"
+                />
+              )}
             </div>
           </div>
           <NavSteps
             previousComponent={previousStep}
             currentIndex={2}
             disable={disabled}
-            // generateReceipt={handleReceiptGeneration}
+            generateReceipt={handleReceiptGeneration}
           />
         </form>
       </div>

@@ -28,7 +28,7 @@ export const receiptReducer = (state: ReceiptStore, action: any) => {
     case SET_RECEIPT_DATA:
       return {
         ...state,
-        RECEIPT: action.payload,
+        receipt: action.payload,
       };
     case SET_PRODUCTS:
       return { ...state, products: action.payload };

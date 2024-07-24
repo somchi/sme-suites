@@ -289,7 +289,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
             previousComponent={previousStep}
             currentIndex={2}
             disable={disabled}
-            // generateInvoice={handleInvoiceGeneration}
+            generateInvoice={handleInvoiceGeneration}
           />
         </form>
       </div>
