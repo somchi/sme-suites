@@ -140,15 +140,14 @@ export const CompactTemplate = () => {
     return tax;
   };
 
-  const grandTotal = useMemo(() => {
+  const grandTotal = () => {
     const subTotal = sum(state.products) ?? 0;
     const discount = data.discount ?? 0;
     const delivery = data.delivery ?? 0;
     const tax = !data.tax ? 0 : data.tax / 100;
     const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [data, state.products, state.taxable]);
-
+  };
   return (
     <div>
       <div className="grid px-6 py-2">
@@ -330,7 +329,7 @@ export const CompactTemplate = () => {
           >
             <p className={`text-white items-center text-xs`}>Total</p>
             <p className={`text-white items-center text-xs`}>
-              <em>{state.currency.symbol}</em> {grandTotal}
+              <em>{state.currency.symbol}</em> {grandTotal()}
             </p>
           </div>
         </div>

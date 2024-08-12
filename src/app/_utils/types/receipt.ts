@@ -11,7 +11,7 @@ export type Receipt = {
   discount: number;
   delivery: number;
   tax: number;
-  invoiceNo: string;
+  invoiceNo?: string;
 };
 
 export type ReceiptStore = {

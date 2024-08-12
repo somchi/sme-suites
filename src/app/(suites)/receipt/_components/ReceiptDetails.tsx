@@ -232,6 +232,18 @@ const ReceiptDetails = ({ previousStep }: Props) => {
               </div>
               <div className="grid items-center md:flex w-full gap-4 py-[1rem]">
                 <div className="grid gap-1 w-full md:w-1/2">
+                  <Label className="text-gray-300" htmlFor="receiptNo">
+                    Invoice no
+                    <em className="text-red-500 font-bold italic ml-1">*</em>
+                  </Label>
+                  <Input
+                    placeholder="Invoice no."
+                    value={data.invoiceNo ?? ''}
+                    onChange={handleChange}
+                    name={'invoiceNo'}
+                  />
+                </div>
+                <div className="grid gap-1 w-full md:w-1/2">
                   <Label className="text-gray-300" htmlFor="Address">
                     Business Logo
                   </Label>

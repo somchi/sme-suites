@@ -1,6 +1,6 @@
 'use client';
 
-import { RootStore } from '@/app/_utils/types/home';
+import { RootStore } from '@/app/_utils/types';
 
 export const SET_SECTION = 'SET_SECTION';
 

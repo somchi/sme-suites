@@ -1,5 +1,5 @@
 import { Action } from '../_components/Action';
-import PreviewPage from '../_components/PreviewPage';
+import { PreviewPage } from '../_components/PreviewPage';
 
 const ReceiptPreview = () => {
   return (

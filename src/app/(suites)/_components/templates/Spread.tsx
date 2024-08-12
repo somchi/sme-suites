@@ -19,7 +19,7 @@ export const SpreadTemplate = () => {
   const pathname = usePathname();
 
   const state: any = useMemo(() => {
-    return pathname === RECEIPT_PREVIEW.href ? receiptState : state;
+    return pathname === RECEIPT_PREVIEW.href ? receiptState : state.invoice;
   }, [invoiceState, receiptState]);
 
   const renderProducts = () => {
@@ -137,14 +137,14 @@ export const SpreadTemplate = () => {
     return tax;
   };
 
-  const grandTotal = useMemo(() => {
+  const grandTotal = () => {
     const subTotal = sum(state.products) ?? 0;
     const discount = data.discount ?? 0;
     const delivery = data.delivery ?? 0;
     const tax = !data.tax ? 0 : data.tax / 100;
     const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [state, state.products, state.taxable]);
+  };
 
   return (
     <div className="grid">
@@ -317,7 +317,7 @@ export const SpreadTemplate = () => {
           <div className={`flex items-center text-start justify-between py-0`}>
             <p className={`text-black items-center text-xs font-bold`}>TOTAL</p>
             <p className={`text-black items-center text-xs`}>
-              <em>{state.currency.symbol}</em> {grandTotal}
+              <em>{state.currency.symbol}</em> {grandTotal()}
             </p>
           </div>
           <hr className={`${state.brandColor.bgColor} w-full  h-[1px]`} />

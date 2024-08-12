@@ -19,8 +19,8 @@ export const StandardTemplate = () => {
   const pathname = usePathname();
 
   const state: any = useMemo(() => {
-    return pathname === RECEIPT_PREVIEW.href ? receiptState : state;
-  }, [invoiceState, receiptState]);
+    return pathname === RECEIPT_PREVIEW.href ? receiptState : invoiceState;
+  }, []);
 
   const renderProducts = () => {
     return state.products.map((item: Product) => {
@@ -92,7 +92,7 @@ export const StandardTemplate = () => {
   };
 
   const data = useMemo(() => {
-    return pathname === RECEIPT_PREVIEW.href ? state.receipt : state;
+    return pathname === RECEIPT_PREVIEW.href ? state.receipt : state.invoice;
   }, [state.invoice, state.receipt]);
 
   const business = useMemo(() => {
@@ -101,7 +101,7 @@ export const StandardTemplate = () => {
 
   const customer = useMemo(() => {
     return state.customer;
-  }, [state.invoice, state.receipt]);
+  }, []);
 
   const sum = (products: Product[]) => {
     return products.reduce(
@@ -137,20 +137,20 @@ export const StandardTemplate = () => {
     return tax;
   };
 
-  const grandTotal = useMemo(() => {
+  const grandTotal = () => {
     const subTotal = sum(state.products) ?? 0;
     const discount = state.discount ?? 0;
     const delivery = state.delivery ?? 0;
     const tax = !state.tax ? 0 : state.tax / 100;
     const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [state, state.products, state.taxable]);
+  };
 
-  const logo = useMemo(() => {
+  const logo = () => {
     if (!data.businessLogo) return;
     const image = data.businessLogo;
     return image;
-  }, []);
+  };
 
   return (
     <div>
@@ -161,7 +161,7 @@ export const StandardTemplate = () => {
             {data.businessLogo && logo ? (
               <div className="rounded-full border w-16 h-16 relative">
                 <Image
-                  src={logo}
+                  src={logo()}
                   alt="business logo"
                   className="rounded-full"
                   fill
@@ -213,6 +213,11 @@ export const StandardTemplate = () => {
             {data.dueDate ? (
               <span className={`${state.brandColor.textColor} text-sm`}>
                 Due Date# <em>{format(data.dueDate, 'MMM dd, yyyy')}</em>
+              </span>
+            ) : null}
+            {pathname === RECEIPT_PREVIEW.href && data.invoiceNo ? (
+              <span className={`${state.brandColor.textColor} text-sm`}>
+                Invoice# <em>{data.invoiceNo}</em>
               </span>
             ) : null}
           </div>
@@ -325,7 +330,7 @@ export const StandardTemplate = () => {
           >
             <p className={`text-white items-center text-xs font-bold`}>Total</p>
             <p className={`text-white items-center text-xs`}>
-              <em>{state.currency.symbol}</em> {grandTotal}
+              <em>{state.currency.symbol}</em> {grandTotal()}
             </p>
           </div>
         </div>
