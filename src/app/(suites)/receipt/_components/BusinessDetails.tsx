@@ -41,15 +41,15 @@ const BusinessDetails = ({ nextStep }: Props) => {
     <>
       <div className="grid">
         <div className="grid">
-          <h4>
+          <h4 className="text-gray-900 font-medium">
             01 - Billing by{' '}
-            <span className="text-gray-400 ">(Your details)</span>
+            <span className="text-gray-800">(Your details)</span>
           </h4>
           <hr className="mt-5 border-gray-500" />
           <form className="mt-2">
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="">
+                <Label className="text-gray-800" htmlFor="">
                   Your business name{' '}
                   <em className="text-red-500 font-bold italic ml-2">*</em>
                 </Label>
@@ -61,7 +61,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="">
+                <Label className="text-gray-800" htmlFor="">
                   Your name{' '}
                   <em className="text-red-500 font-bold italic ml-2">*</em>
                 </Label>
@@ -76,7 +76,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
 
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Email">
+                <Label className="text-gray-800" htmlFor="Email">
                   Your email{' '}
                 </Label>
                 <Input
@@ -87,7 +87,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Number">
+                <Label className="text-gray-800" htmlFor="Number">
                   Phone Number
                   <em className="text-red-500 font-bold italic ml-1">*</em>
                 </Label>
@@ -102,7 +102,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
 
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Address">
+                <Label className="text-gray-800" htmlFor="Address">
                   Address{' '}
                 </Label>
                 <Input
@@ -112,7 +112,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="State">
+                <Label className="text-gray-800" htmlFor="State">
                   State
                 </Label>
                 <Input
@@ -124,7 +124,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
             </div>
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="City">
+                <Label className="text-gray-800" htmlFor="City">
                   City
                 </Label>
                 <Input
@@ -134,7 +134,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="code">
+                <Label className="text-gray-800" htmlFor="code">
                   Zip code
                 </Label>
                 <Input
@@ -144,7 +144,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               {/* <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="City">
+                <Label className="text-gray-800" htmlFor="City">
                   Currency
                 </Label>
                 <Input
@@ -157,14 +157,14 @@ const BusinessDetails = ({ nextStep }: Props) => {
           </form>
         </div>
         <div>
-          <p className="pt-8">
-            01 - Bank Details <span className="text-gray-400 ">(Optional)</span>
+          <p className="pt-8 text-gray-900  font-medium">
+            01 - Bank Details <span className="text-gray-900">(Optional)</span>
           </p>
           <hr className="mt-5 mb-8 border-gray-500" />
           <form action="">
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Country">
+                <Label className="text-gray-800" htmlFor="Country">
                   Country
                 </Label>
                 <Input
@@ -174,7 +174,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Bank">
+                <Label className="text-gray-800" htmlFor="Bank">
                   Bank
                   <em
                     className="text-red-500 font-bold italic ml-1
@@ -194,7 +194,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
 
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Account">
+                <Label className="text-gray-800" htmlFor="Account">
                   Account Number
                   <em className="text-red-500 font-bold italic ml-1">*</em>
                 </Label>
@@ -206,7 +206,7 @@ const BusinessDetails = ({ nextStep }: Props) => {
                 />
               </div>
               <div className="grid w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="AccountName">
+                <Label className="text-gray-800" htmlFor="AccountName">
                   Account holder name
                   <em className="text-red-500 font-bold italic ml-1">*</em>
                 </Label>

@@ -76,9 +76,11 @@ export const ReceiptFlow = () => {
           active={receiptState.currentIndex == 2 ? true : false}
         />
       </div>
-      <h1 className="text-center font-bold text-2xl py-20">{title}</h1>
-      <div className="bg-theme-bgLight p-3 md:p-6 my-4">
-        <div className="bg-theme-bgDark px-4 py-6 md:p-10 rounded-2xl gap-2">
+      <h1 className="text-center font-bold text-2xl py-10 text-gray-800">
+        {title}
+      </h1>
+      <div className="bg-[#e2e2e2] p-3 md:p-6 my-4">
+        <div className="bg-[#f5f5f5] px-4 py-6 md:p-10 rounded-2xl gap-2">
           {renderComponent()}
         </div>
       </div>

@@ -21,7 +21,7 @@ export const TableRow = ({
         <div className="relative">
           <input
             type="text"
-            className="text-xs w-28 bg-transparent 
+            className="text-xs w-28 bg-transparent text-gray-800
                 focus:outline-none border border-gray-600 py-2
                 focus:border-blue-400"
             placeholder="Product name"
@@ -38,7 +38,7 @@ export const TableRow = ({
             type="number"
             className="text-xs w-16 bg-transparent 
                 focus:outline-none border border-gray-600 pl-5 pr-2
-                focus:border-blue-600"
+                focus:border-blue-600 text-gray-800"
             value={item.qty === 0 ? '' : item.qty}
             name="qty"
             required
@@ -48,14 +48,14 @@ export const TableRow = ({
       </Table.Cell>
       <Table.Cell className="px-4">
         <div className="flex relative bg-transparent focus-within:text-white border-gray-600">
-          <span className="absolute text-xs inset-y-0 left-0 flex items-center pl-2">
+          <span className="absolute text-gray-800 text-xs inset-y-0 left-0 flex items-center pl-2">
             {currency}
           </span>
           <input
             type="number"
             className="text-xs w-28 bg-transparent 
                 focus:outline-none border border-gray-600 pl-9 pr-1
-                focus:border-blue-600"
+                focus:border-blue-600 text-gray-800"
             value={item.price === 0 ? '' : item.price}
             name="price"
             required
@@ -65,14 +65,14 @@ export const TableRow = ({
       </Table.Cell>
       <Table.Cell className="px-4">
         <div className="flex relative  bg-transparent focus-within:text-white border-gray-600">
-          <span className="absolute text-xs inset-y-0 left-0 flex items-center pl-2">
+          <span className="absolute text-gray-800 text-xs inset-y-0 left-0 flex items-center text-gray-800 pl-2">
             {currency}
           </span>
           <input
             type="number"
             className="text-xs w-28 bg-transparent 
                 focus:outline-none border border-gray-600 pl-5 pl-9
-                focus:border-blue-600"
+                focus:border-blue-600 text-gray-800"
             value={item.discount === 0 ? '' : item.discount}
             name="discount"
             onChange={(e) => handleChange(e, item)}

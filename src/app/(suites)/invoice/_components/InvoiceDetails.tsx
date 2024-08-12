@@ -169,11 +169,11 @@ const InvoiceDetails = ({ previousStep }: Props) => {
         <form onSubmit={handleInvoiceGeneration}>
           <div className="grid">
             <div>
-              <p>Invoice header</p>
+              <p className="text-gray-900 font-medium">Invoice header</p>
               <hr className="mt-5 mb-8 border-gray-500" />
               <div className="grid md:flex w-full gap-4 items-center py-[1rem]">
                 <div className="grid gap-1 w-full md:w-1/2">
-                  <Label className="text-gray-300" htmlFor="invoiceNo">
+                  <Label className="text-gray-800" htmlFor="invoiceNo">
                     Invoice no
                     <em className="text-red-500 font-bold italic ml-1">*</em>
                   </Label>
@@ -185,7 +185,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                   />
                 </div>
                 <div className="grid gap-1  w-full md:w-1/2">
-                  <Label className="text-gray-300" htmlFor="date">
+                  <Label className="text-gray-800" htmlFor="date">
                     Invoice date
                     <em className="text-red-500 font-bold italic ml-1">*</em>
                   </Label>
@@ -198,7 +198,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
               </div>
               <div className="grid items-center md:flex w-full gap-4 py-[1rem]">
                 <div className="grid gap-1 w-full md:w-1/2">
-                  <Label className="text-gray-300" htmlFor="dueDate">
+                  <Label className="text-gray-800" htmlFor="dueDate">
                     Due Date
                   </Label>
                   <DatePicker
@@ -208,7 +208,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                   />
                 </div>
                 <div className="grid gap-1 w-full md:w-1/2">
-                  <Label className="text-gray-300" htmlFor="Address">
+                  <Label className="text-gray-800" htmlFor="Address">
                     Currency
                   </Label>
                   <Select className="" onChange={handleSetCurrency}>
@@ -225,7 +225,7 @@ const InvoiceDetails = ({ previousStep }: Props) => {
               </div>
               <div className="grid items-center md:flex w-full gap-4 py-[1rem]">
                 <div className="grid gap-1 w-full md:w-1/2">
-                  <Label className="text-gray-300" htmlFor="Address">
+                  <Label className="text-gray-800" htmlFor="Address">
                     Business Logo
                   </Label>
                   <Dropzone
@@ -245,15 +245,15 @@ const InvoiceDetails = ({ previousStep }: Props) => {
           </div>
 
           <div className="grid">
-            <p className="pt-8 pb-3">Others </p>
+            <p className="pt-8 pb-3 text-gray-800 font-medium">Others </p>
             <hr className="mb-4 border-gray-500" />
             <div className="grid md:flex w-full gap-4 py-[1rem]">
               <div className="grid gap-1 w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="Email">
+                <Label className="text-gray-800" htmlFor="Email">
                   Terms & Condition
                 </Label>
                 <textarea
-                  className="w-full block border bg-theme-inputBg my-4 rounded-md border-gray-200 outline-none text-white shadow-sm focus:ring-primary placeholder:text-gray-400 focus:outline-none text-base duration-300 py-3 px-4 focus:border focus:border-blue-300"
+                  className="w-full block border bg-white my-4 rounded-md border-gray-200 outline-none text-gray-800 shadow-sm focus:ring-primary placeholder:text-gray-400 focus:outline-none text-base duration-300 py-3 px-4 focus:border focus:border-blue-300"
                   placeholder="Terms & Condition"
                   value={data.terms ?? ''}
                   name="terms"
@@ -261,11 +261,11 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                 />
               </div>
               <div className="grid gap-1 w-full md:w-1/2">
-                <Label className="text-gray-300" htmlFor="">
+                <Label className="text-gray-800" htmlFor="">
                   Note
                 </Label>
                 <textarea
-                  className="w-full block border bg-theme-inputBg my-4 rounded-md border-gray-200 outline-none text-white shadow-sm focus:ring-primary placeholder:text-gray-400 focus:outline-none text-base duration-300 py-3 px-4 focus:border focus:border-blue-300"
+                  className="w-full block border bg-white my-4 rounded-md border-gray-200 outline-none text-gray-800 shadow-sm focus:ring-primary placeholder:text-gray-400 focus:outline-none text-base duration-300 py-3 px-4 focus:border focus:border-blue-300"
                   placeholder="Note"
                   value={data.note ?? ''}
                   name="note"
@@ -274,14 +274,14 @@ const InvoiceDetails = ({ previousStep }: Props) => {
               </div>
             </div>
             <div className="grid gap-1 w-full md:w-1/2">
-              <Label className="text-gray-300">Signature</Label>
+              <Label className="text-gray-800">Signature</Label>
               <Dropzone
                 upload={handleSignUpload}
                 from="signature"
                 description="signature"
               />
               {data.signature ? (
-                <span className="text-white">{data.signature?.name}</span>
+                <span className="text-gray-800">{data.signature?.name}</span>
               ) : null}
             </div>
           </div>

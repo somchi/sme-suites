@@ -37,9 +37,9 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
   return (
     <>
       <div className="grid">
-        <h4>
+        <h4 className="text-gray-900 font-medium">
           01 - Billing to{' '}
-          <span className="text-gray-400 ">
+          <span className="text-gray-900">
             (Customer details)
             <hr className="mt-5 mb-8 border-gray-500" />
           </span>
@@ -47,7 +47,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
         <form>
           <div className="grid md:flex w-full gap-4 py-[1rem]">
             <div className="grid w-full md:w-1/2">
-              <Label className="text-gray-300" htmlFor="">
+              <Label className="text-gray-800" htmlFor="">
                 Client's name
                 <em className="text-red-500 font-bold italic ml-1">*</em>
               </Label>
@@ -59,7 +59,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
               />
             </div>
             <div className="grid w-full md:w-1/2">
-              <Label className="text-gray-300" htmlFor="Email">
+              <Label className="text-gray-800" htmlFor="Email">
                 Client's email
               </Label>
               <Input
@@ -73,7 +73,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
 
           <div className="grid md:flex w-full gap-4 py-[1rem]">
             <div className="grid w-full md:w-1/2">
-              <Label className="text-gray-300" htmlFor="Address">
+              <Label className="text-gray-800" htmlFor="Address">
                 Address{' '}
               </Label>
               <Input
@@ -84,7 +84,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
             </div>
 
             <div className="grid w-full md:w-1/2">
-              <Label className="text-gray-300" htmlFor="Number">
+              <Label className="text-gray-800" htmlFor="Number">
                 Phone Number
                 <em className="text-red-500 font-bold italic ml-2">*</em>
               </Label>
@@ -99,7 +99,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
 
           <div className="grid md:flex w-full gap-4 py-[1rem]">
             <div className="grid w-full md:w-1/2">
-              <Label className="text-gray-300" htmlFor="State">
+              <Label className="text-gray-800" htmlFor="State">
                 State
               </Label>
               <Input
@@ -109,7 +109,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
               />
             </div>
             <div className="grid w-full md:w-1/2">
-              <Label className="text-gray-300" htmlFor="City">
+              <Label className="text-gray-800" htmlFor="City">
                 City
               </Label>
               <Input
@@ -121,7 +121,7 @@ const CustomerDetails = ({ previousStep, nextStep }: Props) => {
           </div>
 
           <div className="w-full md:w-1/2 gap-4 py-[1rem]">
-            <Label className="text-gray-300" htmlFor="code">
+            <Label className="text-gray-800" htmlFor="code">
               Zip code
             </Label>
             <Input

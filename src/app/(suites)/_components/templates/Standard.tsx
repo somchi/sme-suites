@@ -20,7 +20,7 @@ export const StandardTemplate = () => {
 
   const state: any = useMemo(() => {
     return pathname === RECEIPT_PREVIEW.href ? receiptState : invoiceState;
-  }, []);
+  }, [invoiceState, receiptState]);
 
   const renderProducts = () => {
     return state.products.map((item: Product) => {
