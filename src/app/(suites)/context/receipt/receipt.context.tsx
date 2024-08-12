@@ -1,7 +1,6 @@
 import { BRAND_COLOR } from '@/app/_utils/contants';
 import { TEMPLATES } from '@/app/_utils/enums';
 import { Business, Customer, Product } from '@/app/_utils/types';
-import { Invoice, InvoiceStore } from '@/app/_utils/types/invoice';
 import { Receipt, ReceiptStore } from '@/app/_utils/types/receipt';
 import { defaultCountry } from '@/app/_utils/utils';
 import { createContext } from 'react';

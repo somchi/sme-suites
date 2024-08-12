@@ -16,7 +16,6 @@ import { jsPDF } from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import { createClient } from '@/app/_utils/supabase/client';
 import { RECEIPT } from '@/site-setting/navigation';
-import html2canvas from 'html2canvas';
 
 export const Action = () => {
   const { receiptState, receiptDispatch } = useContext(ReceiptContext);
