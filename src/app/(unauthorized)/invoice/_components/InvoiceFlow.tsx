@@ -1,8 +1,8 @@
 'use client';
 
-import BusinessDetails from '@/app/(suites)/invoice/_components/BusinessDetails';
-import CustomerDetails from '@/app/(suites)/invoice/_components/CustomerDetails';
-import InvoiceDetails from '@/app/(suites)/invoice/_components/InvoiceDetails';
+import BusinessDetails from '@/app/(unauthorized)/invoice/_components/BusinessDetails';
+import CustomerDetails from '@/app/(unauthorized)/invoice/_components/CustomerDetails';
+import InvoiceDetails from '@/app/(unauthorized)/invoice/_components/InvoiceDetails';
 import { TITLES } from '@/app/_utils/enums';
 import { useContext, useState } from 'react';
 import { Flow } from '../../_components/Flow';

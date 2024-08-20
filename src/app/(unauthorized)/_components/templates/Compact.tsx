@@ -1,6 +1,6 @@
 'use client';
 
-import { InvoiceContext } from '@/app/(suites)/context/invoice/invoice.context';
+import { InvoiceContext } from '@/app/(unauthorized)/context/invoice/invoice.context';
 import { Product } from '@/app/_utils/types';
 import { formatCurrency } from '@/app/_utils/utils';
 import { Table } from 'flowbite-react';
