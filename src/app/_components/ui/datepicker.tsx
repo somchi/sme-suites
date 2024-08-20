@@ -25,11 +25,11 @@ export function DatePicker({
       <PopoverTrigger asChild>
         <Button
           className={cn(
-            'w-full justify-start text-left font-normal py-[1.2872rem] px-4 bg-theme-inputBg',
+            'w-full text-gray-800 hover:bg-white justify-start text-left font-normal py-[1.2872rem] px-4 bg-white',
             !date && 'text-muted-foreground'
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <CalendarIcon className="mr-2 h-4 w-4 text-gray-800" />
           {date ? (
             format(date, 'PPP')
           ) : (

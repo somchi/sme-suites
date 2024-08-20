@@ -1,14 +1,14 @@
 import { BRAND_COLOR } from '@/app/_utils/contants';
 import { TEMPLATES } from '@/app/_utils/enums';
 import { Business, Customer, Product } from '@/app/_utils/types';
-import { Invoice, InvoiceStore } from '@/app/_utils/types/invoice';
+import { Receipt, ReceiptStore } from '@/app/_utils/types/receipt';
 import { defaultCountry } from '@/app/_utils/utils';
 import { createContext } from 'react';
 
-export const INITIAL_STATE: InvoiceStore = {
+export const INITIAL_STATE: ReceiptStore = {
   business: {} as Business,
   customer: {} as Customer,
-  invoice: {} as Invoice,
+  receipt: {} as Receipt,
   products: [
     { name: '', id: '01', qty: 0, price: 0, discount: 0, amount: 0 },
   ] as Product[],
@@ -20,10 +20,10 @@ export const INITIAL_STATE: InvoiceStore = {
   saveToDB: false,
 };
 
-export const InvoiceContext = createContext<{
-  invoiceState: InvoiceStore;
-  invoiceDispatch: React.Dispatch<any>;
+export const ReceiptContext = createContext<{
+  receiptState: ReceiptStore;
+  receiptDispatch: React.Dispatch<any>;
 }>({
-  invoiceState: INITIAL_STATE,
-  invoiceDispatch: () => null,
+  receiptState: INITIAL_STATE,
+  receiptDispatch: () => null,
 });

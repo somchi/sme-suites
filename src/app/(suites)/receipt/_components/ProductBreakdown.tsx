@@ -2,20 +2,20 @@
 
 import { Checkbox, Table } from 'flowbite-react';
 import { useContext, useMemo, useState } from 'react';
-import { InvoiceContext } from '../../context/invoice/invoice.context';
-import { Product } from '@/app/_utils/types';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
+import { Product } from '@/app/_utils/types/index';
 import {
-  SET_INVOICE_DATA,
+  SET_RECEIPT_DATA,
   SET_PRODUCTS,
   SET_TAXABLE,
-} from '../../context/invoice/inovice.reducer';
+} from '../../context/receipt/receipt.reducer';
 import { Input } from '../../_components/Input';
 import { TableRow } from '../../_components/TableRow';
 import { formatCurrency } from '@/app/_utils/utils';
 
 export const ProdutBreakdown = () => {
-  const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
-  // const [invoiceState.taxable, setTaxable] = useState<boolean>(false);
+  const { receiptState, receiptDispatch } = useContext(ReceiptContext);
+  // const [receiptState.taxable, setTaxable] = useState<boolean>(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -32,13 +32,13 @@ export const ProdutBreakdown = () => {
         ? parseInt(finalVal)
         : parseFloat(finalVal);
 
-    const data = invoiceState.products.map((item) => {
+    const data = receiptState.products.map((item) => {
       if (item.id === product.id) {
         return { ...item, [field]: formatVal };
       }
       return item;
     });
-    invoiceDispatch({
+    receiptDispatch({
       type: SET_PRODUCTS,
       payload: data,
     });
@@ -54,15 +54,15 @@ export const ProdutBreakdown = () => {
       qty: 0,
       amount: 0,
     };
-    invoiceDispatch({
+    receiptDispatch({
       type: SET_PRODUCTS,
-      payload: [...invoiceState.products, data],
+      payload: [...receiptState.products, data],
     });
   };
 
   const handleRemove = (item: Product) => {
-    const products = invoiceState.products.filter((itm) => itm.id !== item.id);
-    invoiceDispatch({
+    const products = receiptState.products.filter((itm) => itm.id !== item.id);
+    receiptDispatch({
       type: SET_PRODUCTS,
       payload: products,
     });
@@ -75,7 +75,7 @@ export const ProdutBreakdown = () => {
     );
   };
 
-  const handleInvoiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleReceiptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const value = target.value;
     const field = target.name;
@@ -88,81 +88,81 @@ export const ProdutBreakdown = () => {
       field === 'tax' || field === 'discount' || field === 'delivery'
         ? parseFloat(finalVal)
         : finalVal;
-    invoiceDispatch({
-      type: SET_INVOICE_DATA,
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
       payload: { ...data, [field]: formatVal },
     });
   };
 
   const renderProducts = () => {
-    return invoiceState.products.map((item: Product) => {
+    return receiptState.products.map((item: Product) => {
       return (
         <TableRow
           key={item.id}
           item={item}
           handleChange={handleChange}
           handleRemove={handleRemove}
-          currency={invoiceState.currency.symbol}
+          currency={receiptState.currency.symbol}
         />
       );
     });
   };
 
   const data = useMemo(() => {
-    return invoiceState.invoice;
-  }, [invoiceState.invoice]);
+    return receiptState.receipt;
+  }, [receiptState.receipt]);
 
   const subTotal = useMemo(() => {
-    const total = sum(invoiceState.products) ?? 0;
+    const total = sum(receiptState.products) ?? 0;
     return total;
-  }, [invoiceState.products]);
+  }, [receiptState.products]);
 
   const taxValue = () => {
-    const percent = invoiceState.invoice.tax / 100;
-    const discount = invoiceState.invoice.discount ?? 0;
-    const delivery = invoiceState.invoice.delivery ?? 0;
-    const total = invoiceState.taxable
-      ? sum(invoiceState.products) - discount + delivery
-      : sum(invoiceState.products) - discount;
+    const percent = receiptState.receipt.tax / 100;
+    const discount = receiptState.receipt.discount ?? 0;
+    const delivery = receiptState.receipt.delivery ?? 0;
+    const total = receiptState.taxable
+      ? sum(receiptState.products) - discount + delivery
+      : sum(receiptState.products) - discount;
     const tax = total * percent + total;
-    return invoiceState.taxable ? tax : tax + delivery;
+    return receiptState.taxable ? tax : tax + delivery;
   };
 
   const summary = () => {
-    const percent = invoiceState.invoice.tax / 100;
-    const discount = invoiceState.invoice.discount ?? 0;
-    const delivery = invoiceState.invoice.delivery ?? 0;
-    const total = invoiceState.taxable
-      ? sum(invoiceState.products) - discount + delivery
-      : sum(invoiceState.products) - discount;
+    const percent = receiptState.receipt.tax / 100;
+    const discount = receiptState.receipt.discount ?? 0;
+    const delivery = receiptState.receipt.delivery ?? 0;
+    const total = receiptState.taxable
+      ? sum(receiptState.products) - discount + delivery
+      : sum(receiptState.products) - discount;
     const tax = total * percent;
     return tax;
   };
 
   const grandTotal = useMemo(() => {
-    const subTotal = sum(invoiceState.products) ?? 0;
-    const discount = invoiceState.invoice.discount ?? 0;
-    const delivery = invoiceState.invoice.delivery ?? 0;
-    const tax = !invoiceState.invoice.tax ? 0 : invoiceState.invoice.tax / 100;
+    const subTotal = sum(receiptState.products) ?? 0;
+    const discount = receiptState.receipt.discount ?? 0;
+    const delivery = receiptState.receipt.delivery ?? 0;
+    const tax = !receiptState.receipt.tax ? 0 : receiptState.receipt.tax / 100;
     const total = tax === 0 ? subTotal - discount + delivery : taxValue();
     return total;
-  }, [invoiceState.invoice, invoiceState.products, invoiceState.taxable]);
+  }, [receiptState.receipt, receiptState.products, receiptState.taxable]);
 
   const handleTaxable = (e: any) => {
-    invoiceDispatch({ type: SET_TAXABLE, payload: !invoiceState.taxable });
+    receiptDispatch({ type: SET_TAXABLE, payload: !receiptState.taxable });
   };
 
   const taxTotal = useMemo(() => {
-    if (invoiceState.taxable) {
+    if (receiptState.taxable) {
       return subTotal - data.discount + data.delivery ?? 0;
     }
     return subTotal - data.discount ?? 0;
-  }, [invoiceState.taxable]);
+  }, [receiptState.taxable]);
 
   return (
     <div className="grid w-full overflow-auto">
       <div className="w-full overflow-x-auto">
-        <p className="pt-8 pb-3">
+        <p className="pt-8 pb-3 text-gray-900 font-medium">
           Product / Service details{' '}
           <em className="text-red-500 font-bold italic ml-1">*</em>
         </p>
@@ -208,7 +208,7 @@ export const ProdutBreakdown = () => {
           <p className="font-semibold text-sm text-gray-800">Sub Total</p>
           <div className="flex items-center ">
             <span className="text-sm pr-1 text-gray-800">
-              {invoiceState.currency.symbol}
+              {receiptState.currency.symbol}
             </span>
             <p className="text-gray-800">{formatCurrency(subTotal)}</p>
           </div>
@@ -224,7 +224,7 @@ export const ProdutBreakdown = () => {
               placeholder="0"
               inputType="number"
               value={data.tax === 0 || !data.tax ? '' : data.tax}
-              onChange={handleInvoiceChange}
+              onChange={handleReceiptChange}
               name="tax"
             />
           </div>
@@ -237,7 +237,7 @@ export const ProdutBreakdown = () => {
             } % of ${formatCurrency(taxTotal)}`}</span>
             <div className="flex items-center">
               <span className="text-gray-800">
-                {invoiceState.currency.symbol}
+                {receiptState.currency.symbol}
               </span>
               <p className="text-xs text-gray-800">{summary()}</p>
             </div>
@@ -254,8 +254,8 @@ export const ProdutBreakdown = () => {
             </div>
           </div>
           <div className="flex relative w-[8.1rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
-            <span className="absolute text-gray-800 text-xs inset-y-0 left-0 flex items-center pl-2">
-              {invoiceState.currency.symbol}
+            <span className="absolute text-xs inset-y-0 left-0 flex items-center pl-2">
+              {receiptState.currency.symbol}
             </span>
             <div>
               <input
@@ -269,7 +269,7 @@ export const ProdutBreakdown = () => {
                   data.delivery === 0 || !data.delivery ? '' : data.delivery
                 }
                 name="delivery"
-                onChange={handleInvoiceChange}
+                onChange={handleReceiptChange}
               />
             </div>
           </div>
@@ -281,8 +281,8 @@ export const ProdutBreakdown = () => {
             </span>
           </div>
           <div className="flex relative w-[8.1rem] gap-2 bg-transparent focus-within:text-white border-gray-600">
-            <span className="absolute inset-y-0 text-gray-800 text-xs left-0 flex items-center pl-2">
-              {invoiceState.currency.symbol}
+            <span className="absolute inset-y-0 text-xs left-0 flex items-center pl-2">
+              {receiptState.currency.symbol}
             </span>
             <div>
               <input
@@ -296,7 +296,7 @@ export const ProdutBreakdown = () => {
                   data.discount === 0 || !data.discount ? '' : data.discount
                 }
                 name="discount"
-                onChange={handleInvoiceChange}
+                onChange={handleReceiptChange}
               />
             </div>
           </div>
@@ -306,7 +306,7 @@ export const ProdutBreakdown = () => {
           <h2 className="font-bold text-gray-800">Balance Amount</h2>
           <div className="flex items-center ">
             <span className="text-sm pr-1 text-gray-800">
-              {invoiceState.currency.symbol}
+              {receiptState.currency.symbol}
             </span>
             <p className="text-gray-800">{formatCurrency(grandTotal)}</p>
           </div>

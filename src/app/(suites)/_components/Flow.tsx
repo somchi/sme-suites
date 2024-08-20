@@ -11,11 +11,13 @@ export const Flow = ({ step, description, last, active }: Props) => {
       <div className="flex items-center gap-10">
         <div
           className={`${
-            active ? 'border-blue-600' : 'border-white'
+            active ? 'border-blue-600' : 'border-gray-400'
           } w-[45px] h-[45px] border rounded-3xl flex items-center justify-center p-1`}
         >
           <svg
-            className={`w-6 h-6 ${active ? 'text-blue-600' : 'text-gray-800'} `}
+            className={`w-6 h-6 ${
+              active ? 'text-theme-primary' : 'text-gray-800'
+            } `}
             aria-hidden="true"
             xmlns="http://www.w3. org/2000/svg"
             fill="none"
@@ -33,8 +35,14 @@ export const Flow = ({ step, description, last, active }: Props) => {
         {!last ? <div className="w-[100px] border-2 bg-gray-900"></div> : null}
       </div>
       <div className="grid">
-        <p className="py-4 text-xs text-gray-400">{step}</p>
-        <h3 className="text-sm">{description}</h3>
+        <p
+          className={`py-4 text-xs font-medium ${
+            active ? 'text-theme-primary' : 'text-gray-400'
+          }`}
+        >
+          {step}
+        </p>
+        <h3 className="text-sm text-black">{description}</h3>
       </div>
     </div>
   );

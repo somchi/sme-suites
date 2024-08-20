@@ -9,7 +9,7 @@ function ModuleHeader() {
         <div className="relative">
           <Image src="/logo-short.png" alt="logo" width={30} height={30} />
         </div>
-        <span className="text-lg italic font-bold">SMESuites</span>
+        <span className="text-lg italic font-bold text-black">SMESuites</span>
       </div>
       <Link href="/" className="bg-gray-800 rounded-3xl p-1 cursor-pointer">
         <svg

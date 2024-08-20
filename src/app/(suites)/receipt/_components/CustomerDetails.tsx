@@ -2,8 +2,8 @@ import { useContext, useMemo } from 'react';
 import { NavSteps } from './NavSteps';
 import { Label } from 'flowbite-react';
 import { Input } from '../../_components/Input';
-import { InvoiceContext } from '../../context/invoice/invoice.context';
-import { SET_CUSTOMER_DATA } from '../../context/invoice/inovice.reducer';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
+import { SET_CUSTOMER_DATA } from '../../context/receipt/receipt.reducer';
 
 type Props = {
   previousStep: () => void;
@@ -11,35 +11,35 @@ type Props = {
 };
 
 const CustomerDetails = ({ previousStep, nextStep }: Props) => {
-  const { invoiceDispatch, invoiceState } = useContext(InvoiceContext);
+  const { receiptDispatch, receiptState } = useContext(ReceiptContext);
 
   const disabled = useMemo(() => {
-    if (!invoiceState.customer.name || !invoiceState.customer.phone) {
+    if (!receiptState.customer.name || !receiptState.customer.phone) {
       return true;
     }
     return false;
-  }, [invoiceState.customer]);
+  }, [receiptState.customer]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const field = target.name;
     const value = target.value;
-    invoiceDispatch({
+    receiptDispatch({
       type: SET_CUSTOMER_DATA,
-      payload: { ...invoiceState.customer, [field]: value },
+      payload: { ...receiptState.customer, [field]: value },
     });
   };
 
   const data = useMemo(() => {
-    return invoiceState.customer;
-  }, [invoiceState.customer]);
+    return receiptState.customer;
+  }, [receiptState.customer]);
 
   return (
     <>
       <div className="grid">
         <h4 className="text-gray-900 font-medium">
           01 - Billing to{' '}
-          <span className="text-gray-900 ">
+          <span className="text-gray-900">
             (Customer details)
             <hr className="mt-5 mb-8 border-gray-500" />
           </span>

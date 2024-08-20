@@ -3,7 +3,7 @@
 import { createContext, useReducer } from 'react';
 import { appReducer } from './reducer';
 import { NAV_ITEMS } from '@/app/_utils/enums';
-import { RootStore } from '@/app/_utils/types/home';
+import { RootStore } from '@/app/_utils/types';
 
 const INITIAL_STATE: RootStore = {
   section: NAV_ITEMS.About,

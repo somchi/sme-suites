@@ -3,17 +3,17 @@ import { NavSteps } from './NavSteps';
 import { Input } from '../../_components/Input';
 import { Label, Select } from 'flowbite-react';
 import { ProdutBreakdown } from './ProductBreakdown';
-import { InvoiceContext } from '../../context/invoice/invoice.context';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
 import {
   SET_CURRENCY,
-  SET_INVOICE_DATA,
-} from '../../context/invoice/inovice.reducer';
+  SET_RECEIPT_DATA,
+} from '../../context/receipt/receipt.reducer';
 import { Dropzone } from '@/app/_components/Dropzone';
 import { DatePicker } from '@/app/_components/ui/datepicker';
 import Image from 'next/image';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { INVOICE_PREVIEW } from '@/site-setting/navigation';
+import { INVOICE_PREVIEW, RECEIPT_PREVIEW } from '@/site-setting/navigation';
 import { Countries } from '@/app/_utils/currency';
 import { format } from 'date-fns';
 
@@ -21,19 +21,19 @@ type Props = {
   previousStep: () => void;
 };
 
-const InvoiceDetails = ({ previousStep }: Props) => {
-  const { invoiceDispatch, invoiceState } = useContext(InvoiceContext);
+const ReceiptDetails = ({ previousStep }: Props) => {
+  const { receiptDispatch, receiptState } = useContext(ReceiptContext);
   const router = useRouter();
 
   useEffect(() => {
     let mounted = true;
-    if (mounted && !invoiceState.invoice.date) {
+    if (mounted && !receiptState.receipt.date) {
       const date = format(new Date(), 'MMM dd, yyyy');
 
-      invoiceDispatch({
-        type: SET_INVOICE_DATA,
+      receiptDispatch({
+        type: SET_RECEIPT_DATA,
         payload: {
-          ...invoiceState.invoice,
+          ...receiptState.receipt,
           date,
         },
       });
@@ -44,18 +44,18 @@ const InvoiceDetails = ({ previousStep }: Props) => {
   }, []);
 
   const disabled = useMemo(() => {
-    const product = invoiceState.products[0];
+    const product = receiptState.products[0];
     const copy: any = { ...product };
     delete copy['discount'];
     delete copy['amount'];
     const validate =
       Object.values(copy).includes('') || Object.values(copy).includes(0);
 
-    if (!invoiceState.invoice.invoiceNo || !invoiceState.invoice.date) {
+    if (!receiptState.receipt.receiptNo || !receiptState.receipt.date) {
       return true;
     }
     return false;
-  }, [invoiceState.products, invoiceState.invoice]);
+  }, [receiptState.products, receiptState.receipt]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -63,15 +63,15 @@ const InvoiceDetails = ({ previousStep }: Props) => {
     const target = e.target;
     const field = target.name;
     const value = target.value;
-    invoiceDispatch({
-      type: SET_INVOICE_DATA,
-      payload: { ...invoiceState.invoice, [field]: value },
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
+      payload: { ...receiptState.receipt, [field]: value },
     });
   };
 
   const data = useMemo(() => {
-    return invoiceState.invoice;
-  }, [invoiceState.invoice]);
+    return receiptState.receipt;
+  }, [receiptState.receipt]);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -85,8 +85,8 @@ const InvoiceDetails = ({ previousStep }: Props) => {
       reader.onload = function () {
         base64String = reader?.result;
 
-        invoiceDispatch({
-          type: SET_INVOICE_DATA,
+        receiptDispatch({
+          type: SET_RECEIPT_DATA,
           payload: { ...data, businessLogo: base64String },
         });
       };
@@ -105,8 +105,8 @@ const InvoiceDetails = ({ previousStep }: Props) => {
       reader.onload = function () {
         base64String = reader?.result;
 
-        invoiceDispatch({
-          type: SET_INVOICE_DATA,
+        receiptDispatch({
+          type: SET_RECEIPT_DATA,
           payload: { ...data, signature: base64String },
         });
       };
@@ -115,34 +115,41 @@ const InvoiceDetails = ({ previousStep }: Props) => {
   };
 
   const handleDate = (date: any) => {
-    invoiceDispatch({
-      type: SET_INVOICE_DATA,
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
       payload: { ...data, date },
     });
   };
 
   const handleDueDate = (dueDate: any) => {
-    invoiceDispatch({
-      type: SET_INVOICE_DATA,
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
       payload: { ...data, dueDate },
     });
   };
 
   const removeLogo = () => {
-    invoiceDispatch({
-      type: SET_INVOICE_DATA,
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
       payload: { ...data, businessLogo: '' },
     });
   };
 
-  const handleInvoiceGeneration = (e: any) => {
+  const removeSignature = () => {
+    receiptDispatch({
+      type: SET_RECEIPT_DATA,
+      payload: { ...data, signature: '' },
+    });
+  };
+
+  const handleReceiptGeneration = (e: any) => {
     e.preventDefault();
-    router.push(INVOICE_PREVIEW.href);
+    router.push(RECEIPT_PREVIEW.href);
   };
   const handleSetCurrency = (e: any) => {
     const value = e.target.value;
 
-    invoiceDispatch({ type: SET_CURRENCY, payload: JSON.parse(value) });
+    receiptDispatch({ type: SET_CURRENCY, payload: JSON.parse(value) });
   };
 
   return (
@@ -166,27 +173,27 @@ const InvoiceDetails = ({ previousStep }: Props) => {
         </div>
       ) : null}
       <div className="grid">
-        <form onSubmit={handleInvoiceGeneration}>
+        <form onSubmit={handleReceiptGeneration}>
           <div className="grid">
             <div>
-              <p className="text-gray-900 font-medium">Invoice header</p>
+              <p className="text-gray-900 font-medium">Receipt header</p>
               <hr className="mt-5 mb-8 border-gray-500" />
               <div className="grid md:flex w-full gap-4 items-center py-[1rem]">
                 <div className="grid gap-1 w-full md:w-1/2">
-                  <Label className="text-gray-800" htmlFor="invoiceNo">
-                    Invoice no
+                  <Label className="text-gray-800" htmlFor="receiptNo">
+                    Receipt no
                     <em className="text-red-500 font-bold italic ml-1">*</em>
                   </Label>
                   <Input
-                    placeholder="Invoice no."
-                    value={data.invoiceNo ?? ''}
+                    placeholder="Receipt no."
+                    value={data.receiptNo ?? ''}
                     onChange={handleChange}
-                    name={'invoiceNo'}
+                    name={'receiptNo'}
                   />
                 </div>
                 <div className="grid gap-1  w-full md:w-1/2">
                   <Label className="text-gray-800" htmlFor="date">
-                    Invoice date
+                    Receipt date
                     <em className="text-red-500 font-bold italic ml-1">*</em>
                   </Label>
                   <DatePicker
@@ -224,6 +231,18 @@ const InvoiceDetails = ({ previousStep }: Props) => {
                 </div>
               </div>
               <div className="grid items-center md:flex w-full gap-4 py-[1rem]">
+                <div className="grid gap-1 w-full md:w-1/2">
+                  <Label className="text-gray-800" htmlFor="receiptNo">
+                    Invoice no
+                    <em className="text-red-500 font-bold italic ml-1">*</em>
+                  </Label>
+                  <Input
+                    placeholder="Invoice no."
+                    value={data.invoiceNo ?? ''}
+                    onChange={handleChange}
+                    name={'invoiceNo'}
+                  />
+                </div>
                 <div className="grid gap-1 w-full md:w-1/2">
                   <Label className="text-gray-800" htmlFor="Address">
                     Business Logo
@@ -275,21 +294,33 @@ const InvoiceDetails = ({ previousStep }: Props) => {
             </div>
             <div className="grid gap-1 w-full md:w-1/2">
               <Label className="text-gray-800">Signature</Label>
-              <Dropzone
-                upload={handleSignUpload}
-                from="signature"
-                description="signature"
-              />
+
               {data.signature ? (
-                <span className="text-gray-800">{data.signature?.name}</span>
-              ) : null}
+                <div className="flex items-center gap-1 justify-center">
+                  <div className=" border w-20 h-12 relative">
+                    <Image src={data.signature} alt="Uploaded" fill />
+                  </div>
+                  <CircleX
+                    size={14}
+                    color="red"
+                    onClick={removeSignature}
+                    className="cursor-pointer"
+                  />
+                </div>
+              ) : (
+                <Dropzone
+                  upload={handleSignUpload}
+                  from="signature"
+                  description="signature"
+                />
+              )}
             </div>
           </div>
           <NavSteps
             previousComponent={previousStep}
             currentIndex={2}
             disable={disabled}
-            generateInvoice={handleInvoiceGeneration}
+            generateReceipt={handleReceiptGeneration}
           />
         </form>
       </div>
@@ -297,4 +328,4 @@ const InvoiceDetails = ({ previousStep }: Props) => {
   );
 };
 
-export default InvoiceDetails;
+export default ReceiptDetails;

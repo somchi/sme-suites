@@ -1,61 +1,60 @@
 'use client';
-import { INVOICE } from '@/site-setting/navigation';
 import { Download, Edit, Plus, Printer, Share } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
-import { InvoiceContext } from '../../context/invoice/invoice.context';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
 import {
   SET_CLEAR_DATA,
   SET_COLOR_THEME,
   SET_SAVE_TO_DB,
   SET_TEMPLATE,
-} from '../../context/invoice/inovice.reducer';
+} from '../../context/receipt/receipt.reducer';
 import { BRAND_COLOR } from '@/app/_utils/contants';
 import { Button } from '@/app/_components/ui/button';
 import { TEMPLATES } from '@/app/_utils/enums';
 import { jsPDF } from 'jspdf';
 import { useReactToPrint } from 'react-to-print';
 import { createClient } from '@/app/_utils/supabase/client';
+import { RECEIPT } from '@/site-setting/navigation';
 
 export const Action = () => {
-  const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
+  const { receiptState, receiptDispatch } = useContext(ReceiptContext);
 
   const router = useRouter();
 
-  const handleNewInvoice = () => {
-    invoiceDispatch({
+  const handleNewReceipt = () => {
+    receiptDispatch({
       type: SET_CLEAR_DATA,
       payload: '',
     });
-    router.push(INVOICE.href);
+    router.push(RECEIPT.href);
   };
 
   const handleClick = (theme: { bgColor: any; textColor: any }) => {
-    invoiceDispatch({ type: SET_COLOR_THEME, payload: theme });
+    receiptDispatch({ type: SET_COLOR_THEME, payload: theme });
   };
 
   const handleEdit = () => {
-    invoiceDispatch({ type: SET_SAVE_TO_DB, payload: false });
-    router.push(INVOICE.href);
+    receiptDispatch({ type: SET_SAVE_TO_DB, payload: false });
+    router.push(RECEIPT.href);
   };
 
   const handleTemplateClick = (template: string) => {
-    invoiceDispatch({ type: SET_TEMPLATE, payload: template });
+    receiptDispatch({ type: SET_TEMPLATE, payload: template });
   };
 
   const handleSaveToDB = async () => {
-    if (invoiceState.saveToDB || !process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    if (receiptState.saveToDB || !process.env.NEXT_PUBLIC_SUPABASE_URL) return;
     const supabase = createClient();
 
     const payload = {
-      business: invoiceState.business.businessName,
-      business_email: invoiceState.business.email ?? '',
-      template: invoiceState.template,
+      business: receiptState.business.businessName,
+      business_email: receiptState.business.email ?? '',
+      template: receiptState.template,
     };
-    const response = await supabase.from('FreeInvoiceUsage').insert(payload);
+    const response = await supabase.from('FreeReceiptUsage').insert(payload);
     if (response.error !== null) return;
-    invoiceDispatch({ type: SET_SAVE_TO_DB, payload: true });
+    receiptDispatch({ type: SET_SAVE_TO_DB, payload: true });
   };
 
   const handleDownload = () => {
@@ -74,7 +73,7 @@ export const Action = () => {
 
       doc.html(content.innerHTML, {
         callback: () => {
-          doc.save('invoice.pdf');
+          doc.save('receipt.pdf');
         },
         x: 0,
         y: 0,
@@ -101,12 +100,12 @@ export const Action = () => {
             xmlSpace="preserve"
             viewBox="0 0 24 24"
             className={`${
-              value.bgColor === invoiceState.brandColor.bgColor
+              value.bgColor === receiptState.brandColor.bgColor
                 ? 'inline mt-[-8px]'
                 : 'hidden'
             } h-[9px]`}
             fill={
-              value.bgColor === invoiceState.brandColor.bgColor
+              value.bgColor === receiptState.brandColor.bgColor
                 ? 'white'
                 : 'transparent'
             }
@@ -126,7 +125,7 @@ export const Action = () => {
         <div className="flex gap-2 items-center" key={key}>
           <span
             className={`${
-              value === invoiceState.template
+              value === receiptState.template
                 ? 'border-blue-500'
                 : 'border-gray-600'
             } border  w-[18px] ml-2 h-[18px] rounded-full text-center cursor-pointer inline-block`}
@@ -136,7 +135,7 @@ export const Action = () => {
               xmlSpace="preserve"
               viewBox="0 0 24 24"
               className={`${
-                value === invoiceState.template
+                value === receiptState.template
                   ? 'fill-blue-500 inline mt-[-8px]'
                   : 'hidden'
               } h-[9px]`}
@@ -176,7 +175,7 @@ export const Action = () => {
         precision: 10,
       });
       const width = doc.internal.pageSize.getWidth();
-      const fileName = 'invoice.pdf';
+      const fileName = 'receipt.pdf';
       doc.html(content.innerHTML, {
         callback: () => {
           const url = doc.output('datauristring', { filename: fileName });
@@ -198,11 +197,11 @@ export const Action = () => {
     const dataURI = await snap();
     const blob = await (await fetch(dataURI)).blob();
 
-    const fileName = 'invoice.pdf';
+    const fileName = 'receipt.pdf';
 
     const file = new File([blob], fileName, { type: blob.type });
     const shareData = {
-      title: 'Invoice',
+      title: 'Receipt',
       files: [file],
     };
     try {
@@ -213,7 +212,7 @@ export const Action = () => {
 
   return (
     <div className="grid md:p-6 p-3">
-      <h2 className="text-black font-bold">Download Invoice</h2>
+      <h2 className="text-black font-bold">Download Receipt</h2>
       <div className="grid md:flex md:flex-wrap md:justify-between md:items-center mt-4 mb-2 gap-2">
         <Button
           onClick={handleEdit}
@@ -226,7 +225,7 @@ export const Action = () => {
           variant={'primary'}
           className="flex items-center"
           onClick={handleDownload}
-          disabled={invoiceState.business.businessName ? false : true}
+          disabled={receiptState.business.businessName ? false : true}
         >
           <Download size={14} className="mr-2" />
           <span className="text-sm">Download</span>
@@ -236,7 +235,7 @@ export const Action = () => {
         <Button
           className="flex items-center md:w-2/4 gap-2 h-9 px-4 bg-theme-secondary justify-center hover:bg-theme-secondary/80 rounded-lg text-white"
           onClick={handleShare}
-          disabled={invoiceState.business.businessName ? false : true}
+          disabled={receiptState.business.businessName ? false : true}
         >
           <Share size={16} />
           <span>Share</span>
@@ -244,7 +243,7 @@ export const Action = () => {
         <Button
           className="flex items-center"
           onClick={handlePrint}
-          disabled={invoiceState.business.businessName ? false : true}
+          disabled={receiptState.business.businessName ? false : true}
         >
           <Printer size={14} className="mr-2" />
           <span className="text-sm">Print</span>
@@ -266,10 +265,10 @@ export const Action = () => {
         <Button
           variant={'primary'}
           className="flex items-center"
-          onClick={handleNewInvoice}
+          onClick={handleNewReceipt}
         >
           <Plus size={14} className="mr-2" />
-          <span className="text-sm">New invoice</span>
+          <span className="text-sm">New receipt</span>
         </Button>
       </div>
     </div>

@@ -1,29 +1,29 @@
 'use client';
 
-import BusinessDetails from '@/app/(suites)/invoice/_components/BusinessDetails';
-import CustomerDetails from '@/app/(suites)/invoice/_components/CustomerDetails';
-import InvoiceDetails from '@/app/(suites)/invoice/_components/InvoiceDetails';
+import BusinessDetails from '@/app/(suites)/receipt/_components/BusinessDetails';
+import CustomerDetails from '@/app/(suites)/receipt/_components/CustomerDetails';
+import ReceiptDetails from '@/app/(suites)/receipt/_components/ReceiptDetails';
 import { TITLES } from '@/app/_utils/enums';
 import { useContext, useState } from 'react';
 import { Flow } from '../../_components/Flow';
-import { InvoiceContext } from '../../context/invoice/invoice.context';
-import { SET_INDEX } from '../../context/invoice/inovice.reducer';
+import { ReceiptContext } from '../../context/receipt/receipt.context';
+import { SET_INDEX } from '../../context/receipt/receipt.reducer';
 
-export const InvoiceFlow = () => {
+export const ReceiptFlow = () => {
   const [title, setTitle] = useState<string>(TITLES.Business);
-  const { invoiceState, invoiceDispatch } = useContext(InvoiceContext);
+  const { receiptState, receiptDispatch } = useContext(ReceiptContext);
 
   const nextComponent = () => {
-    const index = invoiceState.currentIndex + 1;
-    invoiceDispatch({ type: SET_INDEX, payload: index % 3 });
+    const index = receiptState.currentIndex + 1;
+    receiptDispatch({ type: SET_INDEX, payload: index % 3 });
 
     handleTitle(index);
   };
 
   const previousComponent = () => {
-    const index = invoiceState.currentIndex - 1;
+    const index = receiptState.currentIndex - 1;
     handleTitle(index);
-    invoiceDispatch({ type: SET_INDEX, payload: (index + 3) % 3 });
+    receiptDispatch({ type: SET_INDEX, payload: (index + 3) % 3 });
   };
 
   const handleTitle = (index: number) => {
@@ -32,12 +32,12 @@ export const InvoiceFlow = () => {
         ? TITLES.Business
         : index === 1
         ? TITLES.Customer
-        : TITLES.Invoice
+        : TITLES.Receipt
     );
   };
 
   const renderComponent = () => {
-    switch (invoiceState.currentIndex) {
+    switch (receiptState.currentIndex) {
       case 0:
         return <BusinessDetails nextStep={nextComponent} />;
       case 1:
@@ -48,7 +48,7 @@ export const InvoiceFlow = () => {
           />
         );
       case 2:
-        return <InvoiceDetails previousStep={previousComponent} />;
+        return <ReceiptDetails previousStep={previousComponent} />;
       default:
         return null;
     }
@@ -61,19 +61,19 @@ export const InvoiceFlow = () => {
           step="STEP 1"
           description="Business Details"
           last={false}
-          active={invoiceState.currentIndex == 0 ? true : false}
+          active={receiptState.currentIndex == 0 ? true : false}
         />
         <Flow
           step="STEP 2"
           description="Customer Details"
           last={false}
-          active={invoiceState.currentIndex == 1 ? true : false}
+          active={receiptState.currentIndex == 1 ? true : false}
         />
         <Flow
           step="STEP 3"
-          description="Invoice Details"
+          description="Receipt Details"
           last={true}
-          active={invoiceState.currentIndex == 2 ? true : false}
+          active={receiptState.currentIndex == 2 ? true : false}
         />
       </div>
       <h1 className="text-center font-bold text-2xl py-10 text-gray-800">
