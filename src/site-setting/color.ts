@@ -8,6 +8,7 @@ const Colors = {
     secondary: '#00A939',
     subText: '#595959',
     lightBlue: '#f5f7fe',
+    danger: '#E85347',
   },
 };
 

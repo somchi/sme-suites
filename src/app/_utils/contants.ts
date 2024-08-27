@@ -30,3 +30,5 @@ export const BRAND_COLOR = {
     textColor: 'text-black',
   },
 };
+
+export const PRODUCT_NAME = 'SMESuites';

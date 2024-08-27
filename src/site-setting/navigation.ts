@@ -16,3 +16,18 @@ export const RECEIPT = {
 export const RECEIPT_PREVIEW = {
   href: '/receipt/preview',
 };
+
+export const REGISTER = {
+  href: '/auth/sign-up',
+  icon: '',
+};
+
+export const LOGIN = {
+  href: '/auth/login',
+  icon: '',
+};
+
+export const DASHBOARD = {
+  href: '/dashboard',
+  icon: '',
+};

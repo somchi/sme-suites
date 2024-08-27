@@ -5,18 +5,13 @@ import { keywords } from '@/site-setting/keywords';
 const montserrat = Montserrat({ subsets: ['latin'] });
 const host = 'https://www.smesuites.com';
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : `http://localhost:${process.env.NEXT_PUBLIC_PORT}`;
-
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
   title:
     'SME suites | Simple and Lightweight tools for managing your sales and business activities',
   description:
     'Designed exclusively for micro, small, and medium scale businesses, our suite of tools fits your unique challenges. Seamlessly manage expenses, track income, sell online, track orders and much more.',
   icons: {
-    icon: [{ url: '/icon.png' }, new URL('/icon.png', `${host}`)],
+    icon: [{ url: '/logo/icon.png' }, new URL('/logo/icon.png', `${host}`)],
   },
   openGraph: {
     type: 'website',
@@ -41,8 +36,8 @@ export const metadata = {
     description:
       'Designed exclusively for micro, small, and medium scale businesses, our suite of tools fits your unique challenges. Seamlessly manage expenses, track income, sell online, track orders and much more.',
     images: [
-      { url: '/icon.png', width: 400, height: 300 },
-      new URL('/icon.png', `${host}`),
+      { url: '/logo/icon.png', width: 400, height: 300 },
+      new URL('/logo/icon.png', `${host}`),
     ],
     robots: {
       index: false,
