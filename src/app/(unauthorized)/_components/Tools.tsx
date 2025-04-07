@@ -1,3 +1,4 @@
+import { PUBLIC_INVOICE, PUBLIC_RECEIPT } from '@/site-settings/navigation';
 import { Tool } from './Tool';
 
 export const Tools = () => {
@@ -25,7 +26,7 @@ export const Tools = () => {
             description="Easily create professional invoices tailored to your businesses.
           Impress clients with polished documents that reflect your
           professionalism"
-            link="/invoice"
+            link={PUBLIC_INVOICE.href}
             img="/invoice.png"
           />
           <Tool
@@ -34,7 +35,7 @@ export const Tools = () => {
             description="Easily create professional receiptd tailored to your businesses.
           Impress clients with polished documents that reflect your
           professionalism"
-            link="/receipt"
+            link={PUBLIC_RECEIPT.href}
             img="/inventory.png"
           />
           <Tool

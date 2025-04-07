@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-// import { plugin, content } from 'flowbite-react/tailwind';
 import Colors from './src/site-settings/colors';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports

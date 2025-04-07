@@ -5,5 +5,5 @@ interface Props {
   htmlFor: string;
 }
 export const FormLabel = ({ text, htmlFor }: Props) => {
-  return <Label htmlFor={htmlFor} value={text} className="text-lg font-lora" />;
+  return <Label htmlFor={htmlFor} value={text} className="text-md font-lora" />;
 };

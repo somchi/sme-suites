@@ -1,9 +1,9 @@
 'use client';
 
-import { useAppStore } from '@/app/providers/app-provider';
+import { useUnauthStore } from '@/app/providers/unauth-provider';
 
 export const StepIndicator = () => {
-  const { step } = useAppStore((state) => state);
+  const { step } = useUnauthStore((state) => state);
   return (
     <div className="flex items-center gap-2">
       <div className="flex flex-col">

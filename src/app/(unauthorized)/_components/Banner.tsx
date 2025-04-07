@@ -2,6 +2,7 @@ import Image from 'next/image';
 import IMAGE from '../../../../public/banner.png';
 import { Button } from 'flowbite-react';
 import { buttonTheme } from '@/app/asset/theme';
+import Link from 'next/link';
 
 export const Banner = () => {
   return (
@@ -16,7 +17,7 @@ export const Banner = () => {
           contractors, small business owners, and online vendors.
         </h2>
         <Button theme={buttonTheme} color="primary" className="w-60 py-2">
-          Start for free
+          <Link href={'#tools'}>Start for free</Link>
         </Button>
       </div>
       <div className="w-full md:w-1/2 md:mt-0 mt-4">

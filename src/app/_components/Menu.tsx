@@ -9,6 +9,7 @@ import {
 import Image from 'next/image';
 import { HOME } from '@/site-settings/navigation';
 import { buttonTheme, linkTheme } from '../asset/theme';
+import Link from 'next/link';
 
 export const Menu = () => {
   return (
@@ -25,18 +26,18 @@ export const Menu = () => {
           </NavbarBrand>
           <div className="flex md:order-2">
             <Button theme={buttonTheme} color="primary">
-              Get started
+              <Link href={'#tools'}>Get started</Link>
             </Button>
             <NavbarToggle />
           </div>
           <NavbarCollapse>
-            <NavbarLink href="#" active theme={linkTheme}>
+            <NavbarLink href="/" active theme={linkTheme}>
               Home
             </NavbarLink>
-            <NavbarLink href="#tools" theme={linkTheme}>
+            <NavbarLink href="/#tools" theme={linkTheme}>
               Tools
             </NavbarLink>
-            <NavbarLink href="#how" theme={linkTheme}>
+            <NavbarLink href="/#how" theme={linkTheme}>
               How it works
             </NavbarLink>
           </NavbarCollapse>
